@@ -13,5 +13,9 @@
   - modular tools
   - pipes and redirection
   - portability
-- learned the unix philosophy
 - understood how linux differs from other OSs
+#### Day 3
+- learned about shells and command line interfaces
+- learned new commands: uname, lsb_release, hostname, uptime, whoami, grep, cat, man
+- understood the structure of commands and how to use options and arguments
+- learned how to view system information and date/time

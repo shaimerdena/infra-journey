@@ -19,6 +19,7 @@
 - learned new commands: uname, lsb_release, hostname, uptime, whoami, grep, cat, man
 - understood the structure of commands and how to use options and arguments
 - learned how to view system information and date/time
+- learned how to use man pages for command documentation
 #### Day 4
 - learned about location of commands and how to find them using which and whereis
 - learned about types of commands: built-in, external, aliases, functions

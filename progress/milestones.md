@@ -23,3 +23,6 @@
 #### Day 4
 - learned about location of commands and how to find them using which and whereis
 - learned about types of commands: built-in, external, aliases, functions
+#### Day 5
+- learned about command-line editing and recall
+- learned how to connect and expand commands

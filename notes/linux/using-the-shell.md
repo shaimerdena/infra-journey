@@ -21,6 +21,13 @@ Table of Contents:
     - [Command Substitution](#command-substitution)
     - [Expanding arithmetic expressions](#expanding-arithmetic-expressions)
     - [Expanding variables](#expanding-variables)
+  - [Using Shell Variables](#using-shell-variables)
+    - [Viewing Variables](#viewing-variables)
+    - [Environment Variables](#environment-variables)
+    - [Shell Variables vs Environment Variables](#shell-variables-vs-environment-variables)
+    - [Common Shell Environment Variables](#common-shell-environment-variables)
+  - [Creating and using aliases](#creating-and-using-aliases)
+  - [Exiting the Shell](#exiting-the-shell)
 
 ## Shell Basics
 
@@ -379,3 +386,83 @@ Bash expands `$BASH` to `/usr/bin/bash`, so the resulting command:
 ```bash
 $ ls -l /usr/bin/bash
 ```
+
+## Using Shell Variables
+
+<strong> The shell stores useful information in variables. Syntax: `$VARIABLE` </strong>
+
+### Viewing Variables
+
+- `set` - to show all shell variables
+- `env` - to show environment variables
+- `declare` - to show variables and shell functions
+
+### Environment Variables
+
+<strong> Environment variables are exported to child shells and processes. These variables are commonly used to store: configuration paths, user information, command search paths, shell settings and operating system information. </strong>
+
+<i> Example: </i>
+```bash
+echo $PATH
+```
+
+### Shell Variables vs Environment Variables
+
+- Shell variables exist only in the current shell.
+- Environment variables are inherited by child shells and processes.
+
+<i> Note: To make a variable available to child shells, use `export VARIABLE=value`. If the variable has already been defined, you can export it with `export VARIABLE` </i>
+
+### Common Shell Environment Variables
+
+| Variable | Description |
+|-----------|-------------|
+| ⭐ `HOME` | User's home directory |
+| ⭐ `PATH` | Command search paths |
+| ⭐ `PWD` | Current working directory |
+| ⭐ `OLDPWD` | Previous working directory |
+| ⭐ `USER` | Current username |
+| ⭐ `SHELL` | Current shell |
+| ⭐ `PS1` | Shell prompt |
+| ⭐ `SHLVL` | Shell nesting level |
+| `BASH` | Full path to the Bash executable |
+| `BASH_VERSION` | Bash version |
+| `EUID` | Effective user ID |
+| `HOSTTYPE` | System architecture |
+| `OSTYPE` | Operating system type |
+| `PPID` | Parent process ID |
+| `RANDOM` | Generates random numbers |
+| `SECONDS` | Seconds since shell startup |
+| `MAIL` | User mailbox location |
+| `FCEDIT` | Editor used by fc |
+| `PROMPT_COMMAND` | Command executed before prompt |
+| `TMOUT` | Auto logout timeout |
+
+## Creating and using aliases
+
+<strong> To add or list aliases use the command `alias`. </strong>
+
+<i> Example: </i>
+```bash
+$ alias p='pwd ; ls -CF'
+$ alias rm='rm -i'
+```
+
+<i> ls -C - to show files in columns</i> <br>
+<i> ls -F - to mark file types: 
+- `/` -> directory
+- `*` -> executable file
+- `@` -> symbolic link </i>
+
+<i> rm -i - (interactive mode) to ask for confirmation before deleting files </i>
+
+<i>Note: to remove an alias, use `unalias`. Remember that if the `alias` is set in a configuration file, it will be set again when you open another shell. </i>
+
+## Exiting the Shell
+
+<strong> To exit the shell when you are finished, type `exit` or press (Ctrl + D). </strong>
+
+Behavior:
+- In a Terminal window, exiting the original shell closes the terminal.
+- In a virtual console, exiting returns to the login prompt.
+- If the current shell was started from another shell (e.g., using `su` or `bash`), exiting returns to the parent shell.

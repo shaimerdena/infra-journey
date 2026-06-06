@@ -26,3 +26,6 @@
 #### Day 5
 - learned about command-line editing and recall
 - learned how to connect and expand commands
+#### Day 6
+- learned about shell variables
+- learned how to create aliases and how to exit the shell

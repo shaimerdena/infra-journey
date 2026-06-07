@@ -24,8 +24,13 @@
 - learned about location of commands and how to find them using which and whereis
 - learned about types of commands: built-in, external, aliases, functions
 #### Day 5
-- learned about command-line editing and recall
-- learned how to connect and expand commands
+- explored command-line editing and history recall
+- practiced command chaining and expansion
 #### Day 6
-- learned about shell variables
-- learned how to create aliases and how to exit the shell
+- studied shell variables and environment variables
+- created aliases and explored shell session management
+#### Day 7
+- understood how Bash configuration files work
+- configured a custom shell environment
+- customized prompts, aliases, and environment variables
+- learned about man page sections

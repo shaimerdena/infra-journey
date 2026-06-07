@@ -28,6 +28,13 @@ Table of Contents:
     - [Common Shell Environment Variables](#common-shell-environment-variables)
   - [Creating and using aliases](#creating-and-using-aliases)
   - [Exiting the Shell](#exiting-the-shell)
+  - [Creating Shell Environment](#creating-shell-environment)
+    - [Bash Configuration Files](#bash-configuration-files)
+    - [Reload Configuration](#reload-configuration)
+    - [Setting a prompt](#setting-a-prompt)
+    - [Adding environment variables](#adding-environment-variables)
+    - [Getting Info about Commands](#getting-info-about-commands)
+  - [Man Page Sections](#man-page-sections)
 
 ## Shell Basics
 
@@ -466,3 +473,203 @@ Behavior:
 - In a Terminal window, exiting the original shell closes the terminal.
 - In a virtual console, exiting returns to the login prompt.
 - If the current shell was started from another shell (e.g., using `su` or `bash`), exiting returns to the parent shell.
+
+## Creating Shell Environment
+
+### Bash Configuration Files
+
+<strong> When the user logs in: </strong>
+```
+Login
+↓
+/etc/profile
+↓
+~/.bash_profile
+↓
+~/.bashrc
+↓
+Shell ready
+```
+
+<strong> When the user opens a new Bash shell: </strong>
+```
+bash
+↓
+/etc/bashrc
+↓
+~/.bashrc
+↓
+New shell ready
+```
+
+<strong> System-wide Configuration </strong>
+
+| File | Purpose | Common Uses |
+|--------|----------|----------|
+| `/etc/profile` | Executed once at login for all users |Global environment settings for all users: set environment variables and PATH for all users |
+| `/etc/bashrc` | Executed every time a Bash shell starts |Global Bash settings for all users: default aliases, prompt settings, shell behavior |
+
+<i> Note: To change the `/etc/profile` or `/etc/bashrc` files, you must be the root user. It is better to
+create an `/etc/profile.d/custom.sh` file to add system-­wide settings instead of editing
+those files directly, however. </i>
+
+<strong> User Configuration </strong>
+
+| File | Purpose | Common Uses |
+|--------|----------|----------|
+| `~/.bash_profile` | Executed once at login; used for environment variables |Export environment variables, customize login environment |
+| `~/.bashrc` | Executed at login and for every new Bash shell | Create aliases, modify PATH, customize prompt, shell settings |
+| `~/.bash_logout` | Executed when logging out |Run commands when logging out, cleanup tasks |
+
+<i> Note: Users can change the information in the `$HOME/.bash_profile`,
+`$HOME/.bashrc`, and `$HOME/.bash_logout` files in their own home directories. </i>
+
+### Reload Configuration 
+
+<strong> Apply changes without reopening the shell: </strong>
+
+```bash
+$ source ~/.bashrc
+```
+
+### Setting a prompt
+
+<strong>Shell prompts indicate that the shell is ready to accept input. Prompt customization is useful for displaying important information such as the current user, host, directory, date, or time. </strong>
+
+The appearance of the prompt is controlled by special variables:
+
+| Variable | Purpose |
+|-----------|----------|
+| `PS1` | Primary prompt displayed for normal command input |
+| `PS2` | Secondary prompt displayed when a command is incomplete |
+| `PS3` | Prompt used by the `select` statement in shell scripts |
+| `PS4` | Prompt used during shell script debugging (`set -x`) |
+
+<i> Display the current value of `PS1`: </i>
+
+```bash
+$ echo $PS1
+\u@\h:\w\$
+```
+
+<i> This means the prompt will display the username, hostname, current directory, and the user/root symbol. </i>
+
+<strong> Common Prompt Sequences </strong>
+
+| Sequence | Meaning |
+|-----------|----------|
+| `\u` | Current username |
+| `\h` | Hostname |
+| `\w` | Full current working directory |
+| `\W` | Current directory name only |
+| `\d` | Current date |
+| `\t` | Current time (HH:MM:SS) |
+| `\s` | Current shell name |
+| `\$` | `$` for regular users, `#` for root |
+| `\!` | Current history command number |
+| `\#` | Command number in the current shell session |
+| `\n` | New line |
+| `\\` | Backslash (`\`) |
+| `\[` | Start of non-printing characters (e.g. colors) |
+| `\]` | End of non-printing characters |
+
+
+<i> Set a custom prompt: </i>
+
+```bash
+$ PS1="\u@\h:\w\$ "
+```
+
+<i> Result: </i>
+
+```text
+ayau@ubuntu:/home/ayau$
+```
+
+<i> Another example: </i>
+
+```bash
+$ PS1="\t \u@\h:\W\$ "
+```
+
+<i> Result: </i>
+
+```text
+21:45:12 ayau@ubuntu:projects$
+```
+
+
+<i> Note: Prompt customization is commonly added to `~/.bashrc`. After modifying `~/.bashrc`, reload it with: `source ~/.bashrc`. </i>
+
+<i> Note: If you are setting your prompt temporarily by typing at the shell, you should put the value of PS1 in quotes. For example, you could type `export PS1=" [\t \w]\$ "` to see a prompt that looks like this: `[10:10:22 /var/spool]$`.</i>
+
+### Adding environment variables
+
+Environment variables can be added to `~/.bashrc` to customize shell behavior and improve productivity.
+
+<strong> TMOUT - Automatically logs out an inactive shell after a specified number of seconds. </strong> <br>
+<i>Example: `export TMOUT=1800` (This logs out the shell after 30 minutes of inactivity). </i>
+
+<strong> PATH - Defines directories searched for executable commands. </strong> <br>
+<i>Add a custom directory to PATH: `PATH=$PATH:/getstuff/bin   
+   export PATH` (This allows commands in `/getstuff/bin` to be run from any location). </i>
+
+
+<strong> Custom Variables </strong>
+
+You can create your own environment variables as shortcuts.
+
+Example:
+
+```bash
+$ M=/work/time/files/info/memos
+$ export M
+```
+
+Usage:
+
+```bash
+$ cd $M
+$ vi $M/bun
+$ $M/hotdog
+```
+
+<strong> Security Note: Avoid adding the current directory (`.`) to PATH. This is discouraged because it may execute unintended or malicious programs from the current directory: </strong>
+
+```bash
+PATH=.:$PATH
+```
+
+### Getting Info about Commands
+
+- <strong>Check the PATH.</strong> Type `echo $PATH`, to see a list of the directories containing commands and then list the contents of those directories using `ls`.
+- <strong> Use the `help` command. </strong>. It lists commands that do not appear in a directory and shows options available with each of them. For help with a particular built-in command, enter `help COMMAND`.
+- <strong> Use `--help` with the command. </strong> It shows not only options but also ways of using it.
+- <strong> Use the `info` command. </strong>. It is another tool for displaying information about commands from the shell.
+- <strong> Use the `man` command. </strong> (mostly used)
+
+
+## Man Page Sections
+
+The `man` command organizes documentation into numbered sections.
+
+| Section | Name | Description |
+|----------|----------|----------|
+| `1` | User Commands | Commands available to regular users |
+| `2` | System Calls | Functions used to communicate with the Linux kernel |
+| `3` | C Library Functions | Functions provided by C libraries |
+| `4` | Devices and Special Files | Hardware and software device files |
+| `5` | File Formats and Configuration Files | File formats and system configuration files |
+| `6` | Games | Games and entertainment programs |
+| `7` | Miscellaneous | Protocols, standards, filesystems, and other topics |
+| `8` | System Administration | Administrative commands and daemons (typically require root privileges) |
+
+<i> Examples: </i>
+- Documentation for the `ls` command: `man 1 ls`.
+- Documentation for the `/etc/passwd` file format: `man 5 passwd`.
+- Documentation for the system administration command `useradd`: `man 8 useradd`.
+
+<i> Note: The same name may exist in different sections. Example: `man 1 printf` shows the `printf` command, `man 3 printf` shows the C library function `printf()`. </i>
+
+<strong> `man -k` - to search the name and summary sections of all man pages installed on the system.</strong>
+<i> Note: if `man -k` option displays no output, it may be that the man page database has not been initialized. Type `mandb` as root to initialize the man page database. </i>

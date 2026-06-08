@@ -34,3 +34,6 @@
 - configured a custom shell environment
 - customized prompts, aliases, and environment variables
 - learned about man page sections
+## 08.06.2026 - 14.06.2026
+#### Day 8
+- did hands-on shell exercises to reinforce key concepts

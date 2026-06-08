@@ -187,7 +187,7 @@ Results of the `type` command:
 - If the command is a function: `command is a function`
 - If the command is not found: `command not found`
 
-<i> Note: the are also shell reserved words that are not commands and cannot be overridden by aliases or functions. These include words like `if`, `then`, `else`, `fi`, `for`, `while`, `do`, `done`, `case`, `esac`, `function`, and more. </i>
+<i> Note: there are also shell reserved words that are not commands and cannot be overridden by aliases or functions. These include words like `if`, `then`, `else`, `fi`, `for`, `while`, `do`, `done`, `case`, `esac`, `function`, and more. </i>
 
 <strong> to check if a command is a built-in, external, alias, function, or reserved, you can use the `type` command: </strong>
 ``` bash

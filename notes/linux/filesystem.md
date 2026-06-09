@@ -5,6 +5,12 @@
 Table of contents: 
 - [Filesystem](#filesystem)
   - [Linux Directories](#linux-directories)
+  - [Linux vs Windows Filesystems](#linux-vs-windows-filesystems)
+  - [Commands to create and use files](#commands-to-create-and-use-files)
+  - [Using metacharacters and operators](#using-metacharacters-and-operators)
+    - [File-matching metacharacters](#file-matching-metacharacters)
+    - [File-redirection metacharacters](#file-redirection-metacharacters)
+    - [Brace expansion characters](#brace-expansion-characters)
 
 ## Linux Directories
 
@@ -27,3 +33,159 @@ Table of contents:
 | `/tmp` | Temporary files |
 | `/usr` | User applications, libraries, and documentation |
 | `/var` | Variable data (logs, web files, mail, databases) |
+
+## Linux vs Windows Filesystems
+
+| Feature | Linux | Windows |
+|----------|--------|---------|
+| Storage organization | Single filesystem tree (`/`) | Multiple drives (`C:`, `D:`) |
+| Path separator | `/` | `\` |
+| Executable files | Determined by permissions (`chmod +x`) | Often determined by extensions (`.exe`, `.bat`) |
+| File ownership | Every file has an owner and permissions | Added later; originally designed as a single-user system |
+
+<i> Example Paths </i>
+
+Linux: `/home/cipher/Documents` <br>
+Windows: `C:\Users\Cipher\Documents`
+
+## Commands to create and use files
+
+Basic Filesystem Commands
+
+| Command |	Description |
+|----------|--------|
+| cd | 	Navigate to a different directory
+| pwd |	Display the current working directory
+|mkdir |	Create a new directory
+| chmod | 	Modify file or directory permissions
+| ls |	Show the contents of a directory
+
+
+<i> Notes: 
+* Running cd without arguments returns you to your home directory.
+* Use pwd to verify your current location in the filesystem.
+* The mkdir command is used to create new directories.
+* File and directory permissions can be modified with chmod. </i>
+
+To view permissions and details of a directory:
+```bash
+$ ls -ld test
+drwxr-xr-x 2 cipher users 4096 Jun 10 12:00 test
+```
+
+## Using metacharacters and operators
+
+### File-matching metacharacters
+
+<strong> Bash supports wildcard characters (globbing) to match multiple files. </strong>
+
+| Metacharacter | Description |
+|---------------|-------------|
+| `*` | Matches zero or more characters |
+| `?` | Matches exactly one character |
+| `[abc]` | Matches one character from the specified set |
+| `[a-z]` | Matches one character within a range |
+
+<i>Examples:</i>
+
+- Matches files starting with `a`: `ls a*`
+- Matches files containing `e`: `ls *e*`
+- Matches files starting with `g` and ending with `t`: `ls g*t`
+- Matches five-character filenames ending with `e`: `ls ????e`
+- Matches files starting with `a`, `b`, or `w`: `ls [abw]*`
+- Matches files starting with letters from `a` to `g`: `ls [a-g]*`
+
+<i> Notes
+
+- Wildcards are expanded by the shell before the command is executed.
+- They can be used with many commands such as `ls`, `cp`, `mv`, and `rm`.
+- Wildcards help work with multiple files without specifying each filename manually. </i>
+
+### File-redirection metacharacters
+
+<strong> Linux commands receive input from <em>standard input (stdin)</em> and send results to <em>standard output (stdout)</em>. </strong>
+
+<strong> Redirection Operators </strong>
+
+| Operator | Description |
+|-----------|-------------|
+| `<` | Read input from a file |
+| `>` | Write output to a file (overwrite) |
+| `>>` | Append output to a file |
+| `2>` | Redirect error messages (stderr) to a file |
+| `&>` | Redirect both output and errors to a file |
+| pipe | Send output of one command as input to another |
+
+<i> Examples </i>
+
+- Read a file as input: `sort < names.txt`
+- Write output to a file: `ls > files.txt`
+- Append output to a file: `date >> log.txt`
+- Save errors only: `find /root 2> errors.txt`
+- Save both output and errors: `find / &> output.log`
+- Use a pipe: `ls | grep txt`
+
+<strong> Here Documents </strong>
+
+A here document (`<<`) allows multiline input to be passed to a command.
+
+Example:
+
+```bash
+cat << EOF
+Hello
+Linux
+EOF
+```
+
+Output:
+
+```text
+Hello
+Linux
+```
+
+<i> Notes
+- `>` overwrites existing content.
+- `>>` preserves existing content and appends new output.
+- `2>` redirects only error messages.
+- `|` connects commands together.
+- Here documents are commonly used in shell scripts for multiline input. </i>
+
+### Brace expansion characters
+
+<strong> Brace expansion (`{ }`) generates multiple strings from a single pattern. Syntax: `{item1, item2, item3}`, `start..end`.</strong>
+
+<i>Example: </i>
+
+- Create multiple directories: `mkdir project-{frontend,backend,database}`. Result:
+
+```text
+project-frontend
+project-backend
+project-database
+```
+
+- Create multiple files using a range: `touch log{1..4}.txt`. Result:
+
+```text
+log1.txt
+log2.txt
+log3.txt
+log4.txt
+```
+- Combine multiple expansions: `touch env-{dev,test,prod}-{1..2}.conf`. Result:
+
+```text
+env-dev-1.conf
+env-dev-2.conf
+env-test-1.conf
+env-test-2.conf
+env-prod-1.conf
+env-prod-2.conf
+```
+
+<i> Notes: 
+- Brace expansion occurs before command execution.
+- Supports both comma-separated values and ranges.
+- Can be combined with other shell features. </i>

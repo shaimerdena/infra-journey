@@ -39,3 +39,5 @@
 - did hands-on shell exercises to reinforce key concepts
 #### Day 9
 - started exploring the linux filesystem
+- learned creating and using files
+- practiced using metacharacters and operators

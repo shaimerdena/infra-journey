@@ -37,3 +37,5 @@
 ## 08.06.2026 - 14.06.2026
 #### Day 8
 - did hands-on shell exercises to reinforce key concepts
+#### Day 9
+- started exploring the linux filesystem

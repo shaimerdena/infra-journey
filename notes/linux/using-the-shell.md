@@ -1,5 +1,7 @@
 # Using the Shell
 
+> Notes based on Linux Bible and personal learning experiments.
+
 Table of Contents:
 - [Using the Shell](#using-the-shell)
   - [Shell Basics](#shell-basics)

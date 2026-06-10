@@ -11,6 +11,13 @@ Table of contents:
     - [File-matching metacharacters](#file-matching-metacharacters)
     - [File-redirection metacharacters](#file-redirection-metacharacters)
     - [Brace expansion characters](#brace-expansion-characters)
+  - [Listing Files and Directories](#listing-files-and-directories)
+    - [Understanding `ls -l`](#understanding-ls--l)
+    - [Understanding `ls -la`](#understanding-ls--la)
+    - [Special Permissions](#special-permissions)
+      - [SetUID / SetGID (`s`)](#setuid--setgid-s)
+      - [Sticky Bit (`t`)](#sticky-bit-t)
+      - [Additional Indicators](#additional-indicators)
 
 ## Linux Directories
 
@@ -56,7 +63,7 @@ Basic Filesystem Commands
 |----------|--------|
 | cd | 	Navigate to a different directory
 | pwd |	Display the current working directory
-|mkdir |	Create a new directory
+| mkdir |	Create a new directory
 | chmod | 	Modify file or directory permissions
 | ls |	Show the contents of a directory
 
@@ -72,6 +79,8 @@ To view permissions and details of a directory:
 $ ls -ld test
 drwxr-xr-x 2 cipher users 4096 Jun 10 12:00 test
 ```
+<i> ls -l - displays detailed info</i> <br>
+<i> ls -d - only lists the name of directories </i>
 
 ## Using metacharacters and operators
 
@@ -116,9 +125,16 @@ drwxr-xr-x 2 cipher users 4096 Jun 10 12:00 test
 | `&>` | Redirect both output and errors to a file |
 | pipe | Send output of one command as input to another |
 
+`|`   command → command <br>
+`>`   output → file <br>
+`>>`  output → append to file <br>
+`<`   file → command <br>
+`2>`  errors → file <br>
+`&>`  everything → file <br>
+ 
 <i> Examples </i>
 
-- Read a file as input: `sort < names.txt`
+- Read a file as input: `sort < names.txt` (it is the same as using `sort names.txt`)
 - Write output to a file: `ls > files.txt`
 - Append output to a file: `date >> log.txt`
 - Save errors only: `find /root 2> errors.txt`
@@ -144,13 +160,6 @@ Output:
 Hello
 Linux
 ```
-
-<i> Notes
-- `>` overwrites existing content.
-- `>>` preserves existing content and appends new output.
-- `2>` redirects only error messages.
-- `|` connects commands together.
-- Here documents are commonly used in shell scripts for multiline input. </i>
 
 ### Brace expansion characters
 
@@ -189,3 +198,100 @@ env-prod-2.conf
 - Brace expansion occurs before command execution.
 - Supports both comma-separated values and ranges.
 - Can be combined with other shell features. </i>
+
+## Listing Files and Directories
+
+### Understanding `ls -l`
+
+<strong> The first character in `ls -l` output indicates the file type. </strong>
+
+| Symbol | Type |
+|----------|----------|
+| `-` | Regular file |
+| `d` | Directory |
+| `l` | Symbolic link |
+
+<i>Examples </i>
+
+* Regular file - `-rw-r--r-- file.txt`
+* Directory - `drwxr-xr-x Documents`
+* Symbolic link - `lrwxrwxrwx config -> /etc/config`
+
+<strong> An executable file has the `x` permission set. The `x` bits indicate that the file can be executed as a program or script. </strong>
+
+<i> Example: </i> `-rwxr-xr-x script.sh`
+
+### Understanding `ls -la`
+
+<strong> The `ls -la` command displays a detailed listing of files and directories, including hidden files. </strong>
+
+| Option | Description |
+|---------|-------------|
+| `-l` | Long listing format |
+| `-a` | Show hidden files (files starting with `.`) |
+
+<strong> Files and directories beginning with `.` are hidden by default. These files are commonly used for shell configuration and user settings. </strong>
+
+Examples:
+
+```text
+.bashrc
+.bash_profile
+.bash_history
+```
+
+<strong> Special Directories </strong>
+
+| Entry | Meaning |
+|---------|----------|
+| `.` | Current directory |
+| `..` | Parent directory |
+
+<i>Example: </i> 
+```bash
+$ ls -la
+total 8
+drwxrwxr-x 2 cipher cipher 4096 Jun 10 15:30 .
+drwxr-­x--x 7 cipher cipher 4096 Jun 10 15:30 ..
+-rw-rw-r--  1 cipher cipher 0 Jun 10 15:30 letter
+```
+<i> total - the total amount of disk space used by the files. </i>
+
+| Column | Description |
+|----------|-------------|
+| 1 | File type and permissions |
+| 2 | Number of hard links |
+| 3 | Owner |
+| 4 | Group |
+| 5 | Size (bytes) |
+| 6 | Last modification date |
+| 7 | File or directory name |
+
+### Special Permissions
+
+#### SetUID / SetGID (`s`)
+
+<strong> Programs with the `s` bit run with the privileges of the file owner or group.</strong>
+
+Example:
+
+```text
+-rwsr-xr-x
+```
+
+#### Sticky Bit (`t`)
+
+<strong> Commonly used on shared directories. Users can create files but cannot delete files owned by others. </strong>
+
+Example:
+
+```text
+drwxrwxrwt
+```
+
+#### Additional Indicators
+
+| Symbol | Meaning |
+|----------|----------|
+| `+` | ACLs (Access Control Lists) are configured |
+| `.` | SELinux context is applied |

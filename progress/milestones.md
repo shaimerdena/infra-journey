@@ -41,3 +41,5 @@
 - started exploring the linux filesystem
 - learned creating and using files
 - practiced using metacharacters and operators
+#### Day 10
+- learned listing files and directories using options

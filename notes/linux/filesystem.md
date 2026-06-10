@@ -15,9 +15,8 @@ Table of contents:
     - [Understanding `ls -l`](#understanding-ls--l)
     - [Understanding `ls -la`](#understanding-ls--la)
     - [Special Permissions](#special-permissions)
-      - [SetUID / SetGID (`s`)](#setuid--setgid-s)
-      - [Sticky Bit (`t`)](#sticky-bit-t)
-      - [Additional Indicators](#additional-indicators)
+    - [Useful `ls` Options](#useful-ls-options)
+    - [Creating Nested Directories](#creating-nested-directories)
 
 ## Linux Directories
 
@@ -269,9 +268,14 @@ drwxr-­x--x 7 cipher cipher 4096 Jun 10 15:30 ..
 
 ### Special Permissions
 
-#### SetUID / SetGID (`s`)
+<strong> SetUID / SetGID (`s`) </strong>
 
 <strong> Programs with the `s` bit run with the privileges of the file owner or group.</strong>
+
+The `s` permission indicates a special execution mode.
+
+- SetUID: program runs with the file owner's privileges
+- SetGID: program runs with the file group's privileges
 
 Example:
 
@@ -279,7 +283,7 @@ Example:
 -rwsr-xr-x
 ```
 
-#### Sticky Bit (`t`)
+<strong> Sticky Bit (`t`) </strong>
 
 <strong> Commonly used on shared directories. Users can create files but cannot delete files owned by others. </strong>
 
@@ -289,9 +293,40 @@ Example:
 drwxrwxrwt
 ```
 
-#### Additional Indicators
+<strong> Additional Indicators </strong>
 
 | Symbol | Meaning |
 |----------|----------|
 | `+` | ACLs (Access Control Lists) are configured |
 | `.` | SELinux context is applied |
+
+### Useful `ls` Options
+
+| Command | Description |
+|----------|-------------|
+| `ls -a` | Show hidden files |
+| `ls -l` | Display detailed information |
+| `ls -la` | Show hidden files in long format |
+| `ls -lt` | Sort files by modification time |
+| `ls -S` | Sort files by size |
+| `ls -F` | Append file type indicators |
+| `ls -R` | List files recursively |
+| `ls -ld DIR` | Show information about a directory itself |
+
+<strong> File Type Indicators (`ls -F`) </strong>
+
+| Symbol | Meaning |
+|----------|----------|
+| `/` | Directory |
+| `*` | Executable file |
+| `@` | Symbolic link |
+
+### Creating Nested Directories
+
+<strong> Use `mkdir -p` to create multiple directory levels at once. This command creates all missing parent directories automatically.</strong>
+
+Example:
+
+```bash
+mkdir -p projects/devops/notes
+```

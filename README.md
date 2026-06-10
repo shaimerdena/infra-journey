@@ -5,6 +5,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 ## Linux Fundamentals
 - [Linux Basics](notes/linux/intro.md)
 - [Using the Shell](notes/linux/using-the-shell.md)
+- [Filesystem](notes/linux/filesystem.md)
   
 ## Networking
 coming soon...

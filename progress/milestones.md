@@ -49,3 +49,4 @@
 - learned how to change file ownership using `chown`
 - learned how default permissions are assigned with `umask`
 - practiced managing permissions and ownership on files and directories
+- learned how to manage, copy and delete files

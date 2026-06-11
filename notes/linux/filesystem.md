@@ -26,6 +26,13 @@ Table of contents:
     - [Why Use Letters Instead of Numbers (chmod)?](#why-use-letters-instead-of-numbers-chmod)
     - [Setting Default Permissions with `umask`](#setting-default-permissions-with-umask)
     - [Changing File Ownership with `chown`](#changing-file-ownership-with-chown)
+  - [Moving, Copying, and Removing Files](#moving-copying-and-removing-files)
+    - [Moving Files with `mv`](#moving-files-with-mv)
+    - [Copying Files with `cp`](#copying-files-with-cp)
+    - [Removing Files with `rm`](#removing-files-with-rm)
+    - [Removing Directories](#removing-directories)
+    - [Common Options](#common-options)
+    - [Safety Tips](#safety-tips)
 
 ## Linux Directories
 
@@ -156,10 +163,10 @@ A here document (`<<`) allows multiline input to be passed to a command.
 Example:
 
 ```bash
-cat << EOF
-Hello
-Linux
-EOF
+$ cat << EOF
+> Hello
+> Linux
+> EOF
 ```
 
 Output:
@@ -337,7 +344,7 @@ drwxrwxrwt
 Example:
 
 ```bash
-mkdir -p projects/devops/notes
+$ mkdir -p projects/devops/notes
 ```
 
 ## File Permissions and Ownership
@@ -427,7 +434,7 @@ Permissions are calculated by adding the values together.
 <strong> Recursive Permissions: Use `-R` to apply permissions recursively to a directory and all its contents. </strong>
 
 ```bash
-chmod -R 755 myapps
+$ chmod -R 755 myapps
 ```
 This applies `755` permissions to all files and directories under `myapps`.
 
@@ -467,7 +474,7 @@ Operators
 <strong> Recursive Permission Changes: Symbolic mode is often preferred for recursive changes because it modifies only specific permission bits. </strong>
 
 ```bash
-chmod -R o-w myapps
+$ chmod -R o-w myapps
 ```
 
 This recursively removes write permission for others without affecting any other permissions.
@@ -534,7 +541,7 @@ chown USER:GROUP FILE
 <strong> Recursive Ownership Changes: Use `-R` to change ownership recursively for a directory and all its contents. </strong>
 
 ```bash
-sudo chown -R cipher:developers project/
+$ sudo chown -R cipher:developers project/
 ```
 
 This changes the owner and group of the directory and everything inside it.
@@ -542,3 +549,83 @@ This changes the owner and group of the directory and everything inside it.
 <i> Notes: 
 - Only the root user (or a user with sudo privileges) can change file ownership.
 - Ownership consists of two parts: User (owner), Group </i>
+
+## Moving, Copying, and Removing Files
+
+<strong> Linux provides three main commands for file management: `mv`, `cp`, and `rm`. </strong>
+
+### Moving Files with `mv`
+
+* Rename a file - `mv old.txt new.txt`
+* Move a file to another directory - `mv notes.txt ~/Documents/`
+* Move a directory and all its contents - `mv project/ ~/archive/`
+
+<i> Note: `mv` can be used both for moving and renaming files. </i>
+
+### Copying Files with `cp`
+
+* Copy a file - `cp notes.txt backup.txt`
+* Copy a file to another location - `cp notes.txt ~/Documents/`
+* Recursively copy a directory and its contents - `cp -r project/ backup/`
+* Archive copy (preserves permissions, preserves ownership, preserves timestamps) - `cp -a project/ backup/`
+
+### Removing Files with `rm`
+
+* Delete a file - `rm notes.txt`
+* Delete all non-hidden files in the current directory - `rm *`
+
+### Removing Directories
+
+* Remove an empty directory - `rmdir emptydir`
+* Recursively remove a directory and its contents - `rm -r project/`
+* Force removal without confirmation - `rm -rf project/`
+
+<i> Security Note: Be careful with `rm -rf` because deleted files cannot be easily recovered </i>
+
+### Common Options
+
+| Option | Description |
+|----------|-------------|
+| `-i` | Prompt before overwriting or deleting |
+| `-r` | Recursive operation |
+| `-f` | Force operation |
+| `-a` | Archive mode (preserve metadata) |
+
+### Safety Tips
+
+<strong> Be careful when using `mv`, `cp`, and `rm` without confirmation prompts. </strong>
+
+<strong> Interactive Mode </strong>
+
+Prompt before overwriting or deleting files.
+
+```bash
+$ rm -i file.txt
+$ cp -i file.txt backup/
+$ mv -i file.txt archive/
+
+$ alias rm='rm -i'
+$ alias cp='cp -i'
+$ alias mv='mv -i'
+```
+
+<strong> Bypassing Aliases </strong>
+
+Run the original command without any aliases.
+
+```bash
+\rm file.txt
+```
+
+<strong> Creating Backups </strong>
+
+If the destination file already exists, a backup copy is created before overwriting it.
+
+```bash
+cp -b config.conf backup/
+mv -b config.conf backup/
+```
+
+<i> Notes: 
+- Wildcards (`*`) combined with `rm` can delete many files at once.
+- `-b` helps prevent accidental data loss when overwriting files. </i>

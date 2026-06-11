@@ -25,17 +25,7 @@ Table of contents:
     - [Changing permissions with `chmod` (letters)](#changing-permissions-with-chmod-letters)
     - [Why Use Letters Instead of Numbers (chmod)?](#why-use-letters-instead-of-numbers-chmod)
     - [Setting Default Permissions with `umask`](#setting-default-permissions-with-umask)
-      - [Default Permissions](#default-permissions)
-      - [Viewing the Current Umask](#viewing-the-current-umask)
-      - [How Umask Works](#how-umask-works)
-      - [Common Umask Values](#common-umask-values)
-      - [Temporarily Changing Umask](#temporarily-changing-umask)
-      - [Permanent Configuration](#permanent-configuration)
     - [Changing File Ownership with `chown`](#changing-file-ownership-with-chown)
-      - [Syntax](#syntax)
-      - [Examples](#examples)
-      - [Recursive Ownership Changes](#recursive-ownership-changes)
-      - [Notes](#notes)
 
 ## Linux Directories
 
@@ -434,7 +424,7 @@ Permissions are calculated by adding the values together.
 | `700` | `rwx------` | Private directories and scripts |
 | `600` | `rw-------` | Sensitive files (SSH keys, credentials) |
 
-<strong> Recursive Permissions. Use `-R` to apply permissions recursively to a directory and all its contents. </strong>
+<strong> Recursive Permissions: Use `-R` to apply permissions recursively to a directory and all its contents. </strong>
 
 ```bash
 chmod -R 755 myapps
@@ -474,7 +464,7 @@ Operators
 | `chmod ug+rx file` | Give read and execute permissions to owner and group |
 | `chmod u=rwx,g=rx,o=r file` | Set exact permissions |
 
-<strong> Recursive Permission Changes. Symbolic mode is often preferred for recursive changes because it modifies only specific permission bits. </strong>
+<strong> Recursive Permission Changes: Symbolic mode is often preferred for recursive changes because it modifies only specific permission bits. </strong>
 
 ```bash
 chmod -R o-w myapps
@@ -493,8 +483,6 @@ Symbolic mode is often safer for recursive permission changes.
 
 <strong> The `umask` command controls the default permissions assigned to newly created files and directories. </strong>
 
-#### Default Permissions
-
 Before applying `umask`, Linux starts with:
 
 | Type | Base Permission |
@@ -502,21 +490,9 @@ Before applying `umask`, Linux starts with:
 | File | `666` (`rw-rw-rw-`) |
 | Directory | `777` (`rwxrwxrwx`) |
 
-> Regular files do not receive execute (`x`) permissions by default.
+<i> Note: Regular files do not receive execute (`x`) permissions by default. To view the current umask, enter `umask`. </i>
 
-#### Viewing the Current Umask
-
-```bash
-umask
-```
-
-Example:
-
-```text
-0002
-```
-
-#### How Umask Works
+<strong> How Umask Works? </strong>
 
 The umask value removes permissions from the base permissions.
 
@@ -525,7 +501,7 @@ Directory: 777 - 002 = 775 (rwxrwxr-x)
 File:      666 - 002 = 664 (rw-rw-r--)
 ```
 
-#### Common Umask Values
+<i> Common Umask Values </i>
 
 | Umask | File Permission | Directory Permission | Description |
 |----------|----------|----------|----------|
@@ -534,33 +510,14 @@ File:      666 - 002 = 664 (rw-rw-r--)
 | `022` | `644` | `755` | Common on Linux systems |
 | `077` | `600` | `700` | Private access for owner only |
 
-#### Temporarily Changing Umask
-
-```bash
-umask 022
-```
-
-All files and directories created in the current shell will use the new default permissions.
-
-#### Permanent Configuration
-
-Add the desired value to your `~/.bashrc`:
-
-```bash
-umask 022
-```
-
-Apply changes immediately:
-
-```bash
-source ~/.bashrc
-```
+* Temporarily Changing Umask - `umask 022`
+* Permanent Configuration - `umask 022` + add the desired value to your `~/.bashrc` + `source ~/.bashrc`.
 
 ### Changing File Ownership with `chown`
 
 <strong> The `chown` command is used to change the owner and/or group of a file or directory. </strong>
 
-#### Syntax
+Syntax:
 
 Change owner:
 
@@ -574,23 +531,7 @@ Change owner and group:
 chown USER:GROUP FILE
 ```
 
-#### Examples
-
-```bash
-sudo chown cipher notes.txt
-```
-
-Change the file owner to `cipher`.
-
-```bash
-sudo chown cipher:developers notes.txt
-```
-
-Change both the owner and group.
-
-#### Recursive Ownership Changes
-
-<strong> Use `-R` to change ownership recursively for a directory and all its contents. </strong>
+<strong> Recursive Ownership Changes: Use `-R` to change ownership recursively for a directory and all its contents. </strong>
 
 ```bash
 sudo chown -R cipher:developers project/
@@ -598,19 +539,6 @@ sudo chown -R cipher:developers project/
 
 This changes the owner and group of the directory and everything inside it.
 
-#### Notes
-
+<i> Notes: 
 - Only the root user (or a user with sudo privileges) can change file ownership.
-- Ownership consists of two parts:
-  - User (owner)
-  - Group
-- Use `ls -l` to view the current owner and group of a file.
-
-Example:
-
-```text
--rw-r--r-- 1 cipher developers notes.txt
-```
-
-- `cipher` → owner
-- `developers` → group
+- Ownership consists of two parts: User (owner), Group </i>

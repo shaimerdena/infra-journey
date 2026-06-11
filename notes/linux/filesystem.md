@@ -17,6 +17,25 @@ Table of contents:
     - [Special Permissions](#special-permissions)
     - [Useful `ls` Options](#useful-ls-options)
     - [Creating Nested Directories](#creating-nested-directories)
+  - [File Permissions and Ownership](#file-permissions-and-ownership)
+    - [File Types](#file-types)
+    - [Permission Structure](#permission-structure)
+    - [Permission Bits](#permission-bits)
+    - [Changing permissions with `chmod` (number)](#changing-permissions-with-chmod-number)
+    - [Changing permissions with `chmod` (letters)](#changing-permissions-with-chmod-letters)
+    - [Why Use Letters Instead of Numbers (chmod)?](#why-use-letters-instead-of-numbers-chmod)
+    - [Setting Default Permissions with `umask`](#setting-default-permissions-with-umask)
+      - [Default Permissions](#default-permissions)
+      - [Viewing the Current Umask](#viewing-the-current-umask)
+      - [How Umask Works](#how-umask-works)
+      - [Common Umask Values](#common-umask-values)
+      - [Temporarily Changing Umask](#temporarily-changing-umask)
+      - [Permanent Configuration](#permanent-configuration)
+    - [Changing File Ownership with `chown`](#changing-file-ownership-with-chown)
+      - [Syntax](#syntax)
+      - [Examples](#examples)
+      - [Recursive Ownership Changes](#recursive-ownership-changes)
+      - [Notes](#notes)
 
 ## Linux Directories
 
@@ -330,3 +349,268 @@ Example:
 ```bash
 mkdir -p projects/devops/notes
 ```
+
+## File Permissions and Ownership
+
+### File Types
+
+<strong> The first character in the permission string indicates the file type. </strong>
+
+| Symbol | Type |
+|----------|----------|
+| `-` | Regular file |
+| `d` | Directory |
+| `l` | Symbolic link |
+| `b` | Block device |
+| `c` | Character device |
+| `s` | Socket |
+| `p` | Named pipe |
+
+### Permission Structure
+
+A permission string contains 9 permission bits divided into three groups:
+
+```text
+-rwxr-xr-x
+ ||| ||| |||
+  |   |   |
+Owner Group Others
+```
+
+| Group | Description |
+|----------|-------------|
+| Owner | User who owns the file |
+| Group | Users belonging to the file's group |
+| Others | All other users |
+
+### Permission Bits
+
+| Symbol | Permission | File | Directory |
+|----------|-------------|----------|-------------|
+| `r` | Read | View file contents | List directory contents (`ls`) |
+| `w` | Write | Modify file contents, rename or delete | Create, delete, or rename files inside the directory |
+| `x` | Execute | Run the file as a program or script | Enter the directory (`cd`) and access its contents |
+| `-` | Not granted | Permission denied | Permission denied |
+
+<i> Note: 
+- For **files**, `x` means the file can be executed.
+- For **directories**, `x` means users can access (`cd`) the directory.
+- Having `r` without `x` on a directory allows users to see names of files but not access them.
+- Having `x` without `r` allows users to access files if they know the exact filename. </i>
+
+### Changing permissions with `chmod` (number)
+
+<strong> The `chmod` command is used to modify file and directory permissions. </strong>
+
+Each permission is represented by a number:
+
+| Permission | Value |
+|------------|--------|
+| `r` (read) | 4 |
+| `w` (write) | 2 |
+| `x` (execute) | 1 |
+
+Permissions are calculated by adding the values together.
+
+| Number | Permission |
+|----------|-------------|
+| `7` | `rwx` |
+| `6` | `rw-` |
+| `5` | `r-x` |
+| `4` | `r--` |
+| `0` | `---` |
+
+```text
+      OWNER  GROUP  OTHERS
+744 -   7      4       4
+```
+
+<i> Common Permission Sets: </i>
+
+| Permission | Result | Typical Use |
+|------------|----------|-------------|
+| `755` | `rwxr-xr-x` | Directories and executable scripts |
+| `644` | `rw-r--r--` | Regular files |
+| `700` | `rwx------` | Private directories and scripts |
+| `600` | `rw-------` | Sensitive files (SSH keys, credentials) |
+
+<strong> Recursive Permissions. Use `-R` to apply permissions recursively to a directory and all its contents. </strong>
+
+```bash
+chmod -R 755 myapps
+```
+This applies `755` permissions to all files and directories under `myapps`.
+
+### Changing permissions with `chmod` (letters)
+
+<strong> Besides numeric permissions, `chmod` can modify permissions symbolically using letters and operators. </strong>
+
+Permission Targets
+
+| Symbol | Meaning |
+|----------|----------|
+| `u` | User (owner) |
+| `g` | Group |
+| `o` | Others |
+| `a` | All users |
+
+Operators
+
+| Symbol | Action |
+|----------|----------|
+| `+` | Add permission |
+| `-` | Remove permission |
+| `=` | Set exact permission |
+
+<i> Common Examples: </i>
+
+| Command | Result |
+|----------|----------|
+| `chmod a-w file` | Remove write permission from everyone |
+| `chmod o-x file` | Remove execute permission from others |
+| `chmod go-rwx file` | Remove all permissions from group and others |
+| `chmod u+rw file` | Give owner read and write permissions |
+| `chmod a+x file` | Give execute permission to everyone |
+| `chmod ug+rx file` | Give read and execute permissions to owner and group |
+| `chmod u=rwx,g=rx,o=r file` | Set exact permissions |
+
+<strong> Recursive Permission Changes. Symbolic mode is often preferred for recursive changes because it modifies only specific permission bits. </strong>
+
+```bash
+chmod -R o-w myapps
+```
+
+This recursively removes write permission for others without affecting any other permissions.
+
+### Why Use Letters Instead of Numbers (chmod)?
+
+- Numeric mode (`755`, `644`) replaces the entire permission set.
+- Symbolic mode (`u+x`, `o-w`) modifies only specific permission bits.
+
+Symbolic mode is often safer for recursive permission changes.
+
+### Setting Default Permissions with `umask`
+
+<strong> The `umask` command controls the default permissions assigned to newly created files and directories. </strong>
+
+#### Default Permissions
+
+Before applying `umask`, Linux starts with:
+
+| Type | Base Permission |
+|----------|----------|
+| File | `666` (`rw-rw-rw-`) |
+| Directory | `777` (`rwxrwxrwx`) |
+
+> Regular files do not receive execute (`x`) permissions by default.
+
+#### Viewing the Current Umask
+
+```bash
+umask
+```
+
+Example:
+
+```text
+0002
+```
+
+#### How Umask Works
+
+The umask value removes permissions from the base permissions.
+
+```text
+Directory: 777 - 002 = 775 (rwxrwxr-x)
+File:      666 - 002 = 664 (rw-rw-r--)
+```
+
+#### Common Umask Values
+
+| Umask | File Permission | Directory Permission | Description |
+|----------|----------|----------|----------|
+| `000` | `666` | `777` | No restrictions |
+| `002` | `664` | `775` | Common for regular users |
+| `022` | `644` | `755` | Common on Linux systems |
+| `077` | `600` | `700` | Private access for owner only |
+
+#### Temporarily Changing Umask
+
+```bash
+umask 022
+```
+
+All files and directories created in the current shell will use the new default permissions.
+
+#### Permanent Configuration
+
+Add the desired value to your `~/.bashrc`:
+
+```bash
+umask 022
+```
+
+Apply changes immediately:
+
+```bash
+source ~/.bashrc
+```
+
+### Changing File Ownership with `chown`
+
+<strong> The `chown` command is used to change the owner and/or group of a file or directory. </strong>
+
+#### Syntax
+
+Change owner:
+
+```bash
+chown USER FILE
+```
+
+Change owner and group:
+
+```bash
+chown USER:GROUP FILE
+```
+
+#### Examples
+
+```bash
+sudo chown cipher notes.txt
+```
+
+Change the file owner to `cipher`.
+
+```bash
+sudo chown cipher:developers notes.txt
+```
+
+Change both the owner and group.
+
+#### Recursive Ownership Changes
+
+<strong> Use `-R` to change ownership recursively for a directory and all its contents. </strong>
+
+```bash
+sudo chown -R cipher:developers project/
+```
+
+This changes the owner and group of the directory and everything inside it.
+
+#### Notes
+
+- Only the root user (or a user with sudo privileges) can change file ownership.
+- Ownership consists of two parts:
+  - User (owner)
+  - Group
+- Use `ls -l` to view the current owner and group of a file.
+
+Example:
+
+```text
+-rw-r--r-- 1 cipher developers notes.txt
+```
+
+- `cipher` → owner
+- `developers` → group

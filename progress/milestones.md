@@ -43,3 +43,9 @@
 - practiced using metacharacters and operators
 #### Day 10
 - learned listing files and directories using options
+#### Day 11
+- explored Linux file permissions (`r`, `w`, `x`) and ownership (user, group, others)
+- learned how to modify permissions using `chmod`
+- learned how to change file ownership using `chown`
+- learned how default permissions are assigned with `umask`
+- practiced managing permissions and ownership on files and directories

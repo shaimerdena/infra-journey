@@ -50,3 +50,6 @@
 - learned how default permissions are assigned with `umask`
 - practiced managing permissions and ownership on files and directories
 - learned how to manage, copy and delete files
+#### Day 12
+- did hands-on shell exercises to reinforce key concepts
+- started working with text files

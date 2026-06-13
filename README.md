@@ -6,6 +6,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Linux Basics](notes/linux/intro.md)
 - [Using the Shell](notes/linux/using-the-shell.md)
 - [Filesystem](notes/linux/filesystem.md)
+- [Text Files](notes/linux/text-files.md)
   
 ## Networking
 coming soon...

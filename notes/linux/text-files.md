@@ -1,0 +1,283 @@
+# Text Files
+
+Table of Contents:
+- [Text Files](#text-files)
+  - [`vim`/`vi`](#vimvi)
+    - [Starting with `vi`](#starting-with-vi)
+    - [Entering Insert Mode](#entering-insert-mode)
+    - [Navigation Commands](#navigation-commands)
+    - [Editing Text](#editing-text)
+    - [Pasting Text](#pasting-text)
+    - [Repeating Commands](#repeating-commands)
+    - [Saving and Exiting `vi`](#saving-and-exiting-vi)
+    - [Useful `vi` Tips](#useful-vi-tips)
+    - [File Navigation Commands](#file-navigation-commands)
+    - [Search Commands](#search-commands)
+    - [Ex Mode](#ex-mode)
+
+## `vim`/`vi`
+
+### Starting with `vi`
+
+<strong> `vi` is a text editor commonly used in Linux systems. </strong>
+
+Opening a File:
+
+```bash
+vi /tmp/test
+```
+
+- Opens an existing file or creates a new one if it does not exist.
+- A new file displays `~` characters on empty lines.
+- The status line at the bottom shows information about the file.
+
+<strong> `vi` operates in two primary modes: </strong>
+
+| Mode | Purpose |
+|----------|----------|
+| Command Mode | Navigate and execute commands |
+| Insert Mode | Enter and edit text |
+
+<i> Note: `vi` starts in Command Mode by default. </i>
+
+<strong> You cannot start typing immediately after opening `vi`. </strong>
+ 
+To begin entering text, first switch to Insert Mode using commands such as: `a`, `i`, `o`
+
+<strong> Compared to `vi`, `vim` provides: </strong>
+
+- syntax highlighting
+- colorized text
+- visual selection
+- split-screen editing
+- additional editing features
+
+<i> Notes:
+- `vi` is a modal editor.
+- Commands are case-sensitive.
+- Understanding the difference between Command Mode and Insert Mode is essential. </i>
+
+### Entering Insert Mode
+
+<strong> To add or modify text in `vi`, you must switch from Command Mode to Insert Mode. </strong>
+
+<strong> Common Insert Commands </strong>
+
+| Command | Action | Position |
+|----------|----------|----------|
+| `i` | Insert | Before the cursor |
+| `a` | Append | After the cursor |
+| `I` | Insert | Beginning of the current line |
+| `A` | Append | End of the current line |
+| `o` | Open a new line | Below the current line |
+| `O` | Open a new line | Above the current line |
+
+<i> Notes: 
+- Lowercase commands work near the cursor, while uppercase commands usually affect the entire line. lowercase = local action, UPPERCASE = bigger scope. 
+- When Insert Mode is active, `-- INSERT --` appears at the bottom of the screen.
+- To leave Insert Mode and return to Command Mode, press `Ecs`. Sometimes you may need to press `Esc` twice, especially after entering special modes such as Ex mode (`:`). </i>
+
+### Navigation Commands
+
+| Command | Action |
+|----------|----------|
+| `←` / `h` | Move left |
+| `→` / `l` | Move right |
+| `↑` / `k` | Move up |
+| `↓` / `j` | Move down |
+| `w` | Jump to the beginning of the next word |
+| `W` | Jump to the beginning of the next word (spaces/tabs only) |
+| `b` | Jump to the beginning of the previous word |
+| `B` | Jump to the beginning of the previous word (spaces/tabs only) |
+| `0` (zero) | Move to the beginning of the current line |
+| `$` | Move to the end of the current line |
+| `H` | Move to the top line of the screen |
+| `M` | Move to the middle line of the screen |
+| `L` | Move to the bottom line of the screen |
+
+```text
+     k
+     ↑
+h ←     → l
+     ↓
+     j
+```
+
+<i>Note: `w` and `b` treat punctuation as word boundaries, while `W` and `B` only use spaces and tabs as separators. </i>
+
+### Editing Text
+
+<strong> Most editing commands in `vi` follow the pattern:</strong>
+
+```text
+[action] + [target]
+```
+
+Example:
+
+```text
+dw = delete word
+cw = change word
+yy = copy current line
+```
+
+<strong> Actions </strong>
+
+| Command | Action |
+|----------|----------|
+| `d<?>` | Delete |
+| `c<?>` | Change (delete and enter Insert Mode) |
+| `y<?>` | Yank (copy) |
+| `x` | Delete character under cursor |
+| `X` | Delete character before cursor |
+
+<i> Common Examples </i>
+
+| Command | Action |
+|----------|----------|
+| `dw` | Delete next word |
+| `db` | Delete previous word |
+| `dd` | Delete current line |
+| `cw` | Change next word |
+| `cc` | Change current line |
+| `c$` | Change from cursor to end of line |
+| `yy` | Copy current line |
+| `y)` | Copy current sentence |
+| `3dd` | Delete 3 lines |
+| `3dw` | Delete 3 words |
+| `5cw` | Change 5 words |
+| `12j` | Move down 12 lines |
+
+<i> Note: Numbers act as multipliers for commands.</i>
+
+### Pasting Text
+
+<strong> Text stored in the buffer can be pasted using `p` or `P`. </strong>
+
+Paste Commands
+
+| Command | Action |
+|----------|----------|
+| `p` | Paste after the cursor or below the current line |
+| `P` | Paste before the cursor or above the current line |
+
+Behavior
+
+| Buffered Content | `p` | `P` |
+|----------|----------|----------|
+| Characters / words | Paste after cursor | Paste before cursor |
+| Entire lines | Paste below current line | Paste above current line |
+
+<i> Notes:
+
+- Deleted (`d`), changed (`c`), and yanked (`y`) text is stored in the buffer.
+- `p` and `P` retrieve the most recently stored text from the buffer.
+</i>
+
+### Repeating Commands
+
+<strong> The `.` command repeats the most recent editing action. </strong>
+
+<i> Common Workflow </i>
+
+```text
+1. Make a change
+2. Move to the next location
+3. Press .
+```
+
+<i> Example: </i>
+
+```vim
+cw
+```
+
+Change a word.
+
+```vim
+.
+```
+
+Repeat the same change at the current cursor position.
+
+<i> Notes:
+- Often used together with search commands.
+- Useful for making the same change multiple times throughout a file. </i>
+
+### Saving and Exiting `vi`
+
+<strong> Use Ex commands (`:`) to save, quit, or both. </strong>
+
+<i> Common Commands </i>
+
+| Command | Action |
+|----------|----------|
+| `:w` | Save the current file but keeps `vi` open. |
+| `:wq` | Save and quit |
+| `ZZ` | Save and quit |
+| `:q` | Quit (only if there are no unsaved changes) |
+| `:q!` | Quit without saving changes |
+
+<i> Notes:
+- `:q!` discards all unsaved changes.
+- `ZZ` and `:wq` achieve the same result: save and exit.
+</i>
+
+### Useful `vi` Tips
+
+| Command | Action |
+|----------|----------|
+| `Esc` | Return to Command Mode |
+| `u` | Undo last change |
+| `Ctrl+R` | Redo |
+| `:!command` | Run a shell command from `vi` |
+| `Ctrl+g` | Show file information and cursor position |
+
+
+### File Navigation Commands
+
+| Command | Action |
+|----------|----------|
+| `Ctrl+f` | Move forward one page |
+| `Ctrl+b` | Move backward one page |
+| `Ctrl+d` | Move forward half a page |
+| `Ctrl+u` | Move backward half a page |
+| `G` | Go to the last line |
+| `1G` | Go to the first line |
+| `#G` | Go to line `#` |
+
+### Search Commands
+
+| Command | Action |
+|----------|----------|
+| `/pattern` | Search forward |
+| `?pattern` | Search backward |
+| `n` | Repeat search in the same direction |
+| `N` | Repeat search in the opposite direction |
+
+<i> Examples: </i>
+
+- Search forward for `hello`: `/hello`
+- Search backward for `goodbye`: `?goodbye`
+- Search for either `print` or `Print`: `/[pP]rint`
+- Search for a line containing `The` followed later by `foot`: `/The.*foot`
+
+<i> Note: Regular expression patterns can be used. </i>
+
+### Ex Mode
+
+<strong> Ex mode is entered by typing `:` in Command Mode. It allows advanced search and text manipulation commands.</strong>
+
+<i> Common Commands </i>
+
+| Command | Action |
+|----------|----------|
+| `:g/pattern` | Display lines matching a pattern |
+| `:s/old/new` | Replace first occurrence on the current line |
+| `:g/old/s//new/g` | Replace all occurrences in the file |
+
+<i> Examples </i>
+
+- Show all lines containing `error`: `:g/error`
+- Replace the first occurrence on the current line: `:s/old/new`
+- Replace all occurrences of `old` with `new` throughout the file: `:g/old/s//new/g`

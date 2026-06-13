@@ -53,3 +53,8 @@
 #### Day 12
 - did hands-on shell exercises to reinforce key concepts
 - started working with text files
+#### Day 13
+- explored the `vi` text editor
+- learned navigation and editing commands
+- practiced working with buffers, search, and text replacement
+- learned how to save, exit, undo, and redo changes

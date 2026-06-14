@@ -58,3 +58,7 @@
 - learned navigation and editing commands
 - practiced working with buffers, search, and text replacement
 - learned how to save, exit, undo, and redo changes
+#### Day 14
+- explored file searching in Linux
+- learned the differences between `locate` and `find`
+- practiced advanced file searches using various attributes

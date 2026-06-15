@@ -65,3 +65,4 @@
 ## 15.06.2026 - 21.06.2026
 #### Day 15
 - learned searching text with `grep`
+- did hands-on shell exercises to reinforce key concepts

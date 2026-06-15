@@ -62,3 +62,6 @@
 - explored file searching in Linux
 - learned the differences between `locate` and `find`
 - practiced advanced file searches using various attributes
+## 15.06.2026 - 21.06.2026
+#### Day 15
+- learned searching text with `grep`

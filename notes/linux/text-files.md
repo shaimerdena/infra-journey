@@ -24,6 +24,7 @@ Table of Contents:
       - [Search by Time](#search-by-time)
       - [Combining Conditions](#combining-conditions)
       - [Executing Commands](#executing-commands)
+    - [Searching Text with `grep`](#searching-text-with-grep)
 
 ## `vim`/`vi`
 
@@ -570,3 +571,49 @@ find /logs -size +100M -exec du -sh {} \;
 find /shared -user joe -ok mv {} /tmp/joe/ \;
 ```
  
+
+### Searching Text with `grep`
+
+<strong> The `grep` command searches for text patterns inside files or command output. </strong>
+
+<i> Common Options </i>
+
+| Option | Description |
+|----------|----------|
+| `-i` | Ignore letter case |
+| `-v` | Show lines that do NOT match |
+| `-r` | Search recursively through directories |
+| `-l` | Show only filenames containing matches |
+| `--color` | Highlight matching text |
+
+---
+
+<strong> Examples: </strong>
+
+- Find lines containing `dns`: `grep dns /etc/services`
+- Case-insensitive search: `grep -i dns /etc/services`
+- Display all lines except those containing `udp`: `grep -vi udp /etc/services`
+- Search all files inside a directory tree: `grep -r keyword /path/to/directory`
+- Show only filenames containing the keyword: `grep -rli keyword /path/to/directory`
+- Search recursively and highlight matching text: `grep -ri --color root /etc/systemd`
+
+---
+
+<strong> Search Command Output </strong>
+
+- Use `grep` as a filter: `command | grep pattern`
+
+Example:
+
+```bash
+ip addr show | grep inet
+```
+
+Display only lines containing `inet`.
+
+<i> Notes:
+
+- `grep` searches file contents, not filenames.
+- Searches are case-sensitive by default.
+- Can be combined with pipes (`|`) to filter command output.
+- One of the most commonly used Linux text-processing tools. </i>

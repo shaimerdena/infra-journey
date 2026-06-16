@@ -66,3 +66,5 @@
 #### Day 15
 - learned searching text with `grep`
 - did hands-on shell exercises to reinforce key concepts
+#### Day 16
+- did hands-on shell exercises to reinforce key concepts

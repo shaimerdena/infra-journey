@@ -68,3 +68,6 @@
 - did hands-on shell exercises to reinforce key concepts
 #### Day 16
 - did hands-on shell exercises to reinforce key concepts
+#### Day 17
+- started learning the processes
+- learned listing processes using `ps`, `procs`, `top` commands

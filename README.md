@@ -7,6 +7,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Using the Shell](notes/linux/using-the-shell.md)
 - [Filesystem](notes/linux/filesystem.md)
 - [Text Files](notes/linux/text-files.md)
+- [Processes](notes/linux/processes.md)
   
 ## Networking
 coming soon...

@@ -71,3 +71,6 @@
 #### Day 17
 - started learning the processes
 - learned listing processes using `ps`, `procs`, `top` commands
+#### Day 18
+- learned about foreground and background processes
+- practiced moving jobs between the foreground and background

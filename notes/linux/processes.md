@@ -11,6 +11,11 @@ Table of Contents:
     - [`top`](#top)
       - [Renice a Process](#renice-a-process)
       - [Kill a Process](#kill-a-process)
+  - [Background and Foreground Processes](#background-and-foreground-processes)
+    - [Starting background processes](#starting-background-processes)
+    - [View Background Jobs](#view-background-jobs)
+    - [Stop a Process Temporarily](#stop-a-process-temporarily)
+    - [Foreground and Background commands](#foreground-and-background-commands)
 
 ## Understanding Processes
 
@@ -133,7 +138,7 @@ GUI   → gnome-system-monitor
 Basic Usage
 
 ```bash
-ps u
+$ ps u
 ```
 
 Displays processes for the current user with additional details such as CPU usage, memory usage, and start time.
@@ -240,19 +245,19 @@ S        → sleeping
 Custom Output:
 
 ```bash
-ps -eo pid,user,uid,group,gid,vsz,rss,comm
+$ ps -eo pid,user,uid,group,gid,vsz,rss,comm
 ```
 
 Sort by Virtual Memory Usage:
 
 ```bash
-ps -eo pid,user,vsz,rss,comm --sort=-vsz
+$ ps -eo pid,user,vsz,rss,comm --sort=-vsz
 ```
 
 Show Top Memory Consumers:
 
 ```bash
-ps -eo pid,user,vsz,rss,comm --sort=-vsz | head
+$ ps -eo pid,user,vsz,rss,comm --sort=-vsz | head
 ```
 
 ### Background Processes
@@ -293,7 +298,7 @@ Useful Fields
 <i> Example </i>
 
 ```bash
-procs --insert TcpPort --insert Processor
+$ procs --insert TcpPort --insert Processor
 ```
 
 Display additional information about ports and CPU cores.
@@ -316,7 +321,7 @@ Watch Mode Controls
 Basic Usage
 
 ```bash
-top
+$ top
 ```
 
 Displays:
@@ -382,3 +387,155 @@ Common signals:
 |----------|----------|
 | `15` | Graceful termination (SIGTERM) |
 | `9` | Force kill (SIGKILL) |
+
+## Background and Foreground Processes
+
+Terminology
+
+| Term | Description |
+|---------|---------|
+| Foreground | Process attached to the terminal |
+| Background | Process runs while shell remains usable |
+| Job | Shell-managed process/task |
+| PID | Process identifier |
+
+### Starting background processes
+
+<strong> A process can run in the background while you continue using the shell. </strong>
+
+Add `&` at the end of a command:
+
+```bash
+command &
+```
+
+Example:
+
+```bash
+$ find /usr > /tmp/allusrfiles &
+[3] 15971
+```
+
+| Value | Meaning |
+|---------|---------|
+| `[3]` | Job number |
+| `15971` | Process ID (PID) |
+
+---
+
+### View Background Jobs
+
+```bash
+$ jobs
+```
+
+Display all jobs associated with the current shell.
+
+---
+
+Job States
+
+| State | Meaning |
+|----------|----------|
+| `Running` | Process is running |
+| `Stopped` | Process is paused |
+| `Done` | Process completed |
+
+---
+
+Symbols in `jobs`
+
+| Symbol | Meaning |
+|---------|----------|
+| `+` | Current (most recent) job |
+| `-` | Previous job |
+
+Example:
+
+```text
+[4]+ Running
+[5]- Running
+```
+
+--- 
+
+Show Process IDs
+
+```bash
+$ jobs -l
+```
+
+Display job numbers together with their PIDs.
+
+---
+
+### Stop a Process Temporarily
+
+```text
+Ctrl + Z
+```
+
+Suspend the current foreground process.
+
+Result:
+
+```text
+Stopped
+```
+
+---
+
+### Foreground and Background commands
+
+<strong> Jobs can be moved between the foreground and background. </strong>
+
+---
+
+<strong> Bring a Job to the Foreground </strong>
+
+```bash
+$ fg %1
+```
+
+Bring job `1` back to the foreground.
+
+---
+
+<strong> Start a Stopped Job in the Background </strong>
+
+```bash
+$ bg %5
+```
+
+Resume job `5` in the background.
+
+---
+
+<strong> Job References </strong>
+
+| Reference | Meaning |
+|------------|----------|
+| `%1` | Job number 1 |
+| `%` | Most recent job (`+`) |
+| `%-` | Previous job (`-`) |
+| `%string` | Job whose command starts with `string` |
+| `%?string` | Job whose command contains `string` |
+
+<i> Examples </i>
+
+- `fg %1`
+- `fg %`
+- `fg %vim`
+- `fg %?find`
+
+---
+
+<strong> Typical Workflow </strong>
+
+```text
+Ctrl + Z -> Stopped -> $ bg %1 -> Running -> $ fg %1
+``` 
+
+
+<i> Security note: Before sending editors (e.g. `vi`) to the background: Save your file first. Unsaved changes can be lost if you log out or the system shuts down.
+</i>

@@ -372,12 +372,6 @@ Advantages and Limitations
 
 <i> `-ls` - Show detailed file information (`ls -l` style output) </i>
 
-<i> Examples </i>
-
-- Search all files and directories below the current directory: `find`
-- Search everything under `/etc`: `find /etc`
-- Search your home directory and display detailed information: `find ~ -ls`
-
 <strong> Handling Permission Errors </strong>
 
 When searching protected directories as a regular user, `find` may display permission errors.

@@ -20,8 +20,7 @@ Table of Contents:
     - [`kill` and `killall`](#kill-and-killall)
     - [Kill a Process by PID](#kill-a-process-by-pid)
     - [Kill a Process by Name](#kill-a-process-by-name)
-      - [Force Kill](#force-kill)
-      - [Send SIGHUP](#send-sighup)
+    - [`nice` and `renice`](#nice-and-renice)
 
 ## Understanding Processes
 
@@ -565,6 +564,15 @@ Ctrl + Z -> Stopped -> $ bg %1 -> Running -> $ fg %1
 
 ---
 
+<strong> `kill` vs `killall` </strong>
+
+| Command | Uses |
+|----------|----------|
+| `kill PID` | Target a specific process by PID |
+| `killall name` | Target all processes with a given name |
+
+---
+
 <strong> Common Signals </strong>
 
 | Signal | Number | Purpose |
@@ -577,15 +585,6 @@ Ctrl + Z -> Stopped -> $ bg %1 -> Running -> $ fg %1
 | `SIGTERM` | `15` | Gracefully terminate a process (default) |
 | `SIGCONT` | `18` | Continue a stopped process |
 | `SIGSTOP` | `19` | Pause a process |
-
----
-
-<strong> Signal Targeting </strong>
-
-| Tool | Uses |
-|---------|---------|
-| `kill` | PID |
-| `killall` | Process name |
 
 ---
 
@@ -611,27 +610,13 @@ Ctrl + Z -> Stopped -> $ bg %1 -> Running -> $ fg %1
 
 ### Kill a Process by Name
 
-```bash
-killall testme
-```
+<strong> `killall` sends a signal to process(es) by name instead of PID. It is especially useful when multiple processes share the same name. </strong>
 
-Uses `SIGTERM` by default.
-
-#### Force Kill
-
-```bash
-killall -9 testme
-```
-
-#### Send SIGHUP
-
-```bash
-killall -HUP gnome-shell
-```
-
----
-
-
+| Command | Description |
+|----------|----------|
+| `killall nginx` | Signal all processes named `nginx` |
+| `killall -9 nginx` | Force kill all `nginx` processes |
+| `killall -HUP nginx` | Send SIGHUP to all `nginx` processes |
 
 ---
 
@@ -649,3 +634,56 @@ SIGCONT - Resume process<br>
 2. If process refuses → SIGKILL (9)
 
 Avoid using `kill -9` immediately unless necessary. </i>
+
+### `nice` and `renice`
+
+<strong> Linux uses a nice value to decide how much CPU attention a process receives. 
+- `nice` → start process with custom priority.
+- `renice` → change priority of running process. </strong>
+
+---
+
+<i> Examples </i>
+
+- Run `updatedb` in the background with a nice value of `5`: `nice -n 5 updatedb &`
+- Change the nice value of process `20284` to `-5`: `renice -n -5 20284`
+  
+---
+
+<strong> Nice Values </strong>
+ 
+| Nice Value | Priority |
+|------------|------------|
+| `-20` | Highest priority |
+| `0` | Default priority |
+| `19` | Lowest priority |
+
+Lower nice value = higher CPU priority
+
+---
+
+Rules for Regular Users
+
+- Can set values only from `0` to `19`
+- Cannot use negative values
+- Cannot decrease a nice value after increasing it
+- Can modify only their own processes
+
+---
+
+Root User Privileges
+
+Root can:
+
+- set any value from `-20` to `19`
+- increase or decrease priority
+- modify any process
+
+---
+
+<i> Recommendation:
+
+1. High nice value (10-19) → Background jobs
+2. Low nice value (-20 to 0) → Important system tasks
+
+</i>

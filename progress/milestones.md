@@ -75,4 +75,5 @@
 - learned about foreground and background processes
 - practiced moving jobs between the foreground and background
 #### Day 19
-- learned about killing processes
+- learned about killing processes: `kill` and `killall`
+- studied processor priority: `nice` and `renice`

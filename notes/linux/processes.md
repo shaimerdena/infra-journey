@@ -16,6 +16,12 @@ Table of Contents:
     - [View Background Jobs](#view-background-jobs)
     - [Stop a Process Temporarily](#stop-a-process-temporarily)
     - [Foreground and Background commands](#foreground-and-background-commands)
+  - [Killing and Renicing Processes](#killing-and-renicing-processes)
+    - [`kill` and `killall`](#kill-and-killall)
+    - [Kill a Process by PID](#kill-a-process-by-pid)
+    - [Kill a Process by Name](#kill-a-process-by-name)
+      - [Force Kill](#force-kill)
+      - [Send SIGHUP](#send-sighup)
 
 ## Understanding Processes
 
@@ -539,3 +545,107 @@ Ctrl + Z -> Stopped -> $ bg %1 -> Running -> $ fg %1
 
 <i> Security note: Before sending editors (e.g. `vi`) to the background: Save your file first. Unsaved changes can be lost if you log out or the system shuts down.
 </i>
+
+## Killing and Renicing Processes
+
+### `kill` and `killall`
+
+<strong> The `kill` and `killall` commands send signals to running processes. </strong>
+
+---
+
+<strong> Common Commands </strong>
+
+| Command | Description |
+|----------|----------|
+| `kill PID` | Send a signal to a process by PID |
+| `killall name` | Send a signal to processes by name |
+| `nice` | Start a process with a custom priority |
+| `renice` | Change priority of a running process |
+
+---
+
+<strong> Common Signals </strong>
+
+| Signal | Number | Purpose |
+|----------|----------|----------|
+| `SIGHUP` | `1` | Reload configuration / restart behavior |
+| `SIGINT` | `2` | Interrupt from keyboard |
+| `SIGQUIT` | `3` | Quit from keyboard |
+| `SIGABRT` | `6` | Abort signal from abort(3) |
+| `SIGKILL` | `9` | Force kill a process |
+| `SIGTERM` | `15` | Gracefully terminate a process (default) |
+| `SIGCONT` | `18` | Continue a stopped process |
+| `SIGSTOP` | `19` | Pause a process |
+
+---
+
+<strong> Signal Targeting </strong>
+
+| Tool | Uses |
+|---------|---------|
+| `kill` | PID |
+| `killall` | Process name |
+
+---
+
+### Kill a Process by PID
+
+<strong> Default (SIGTERM) </strong>
+
+`kill 10432` equivalent to `kill -15 10432`
+
+---
+
+<strong> Force Kill </strong>
+
+`kill -9 10432` equivalent to `kill -SIGKILL 10432`
+
+---
+
+<strong> Reload Configuration </strong>
+
+`kill -1 1833` equivalent to `kill -SIGHUP 1833`
+
+---
+
+### Kill a Process by Name
+
+```bash
+killall testme
+```
+
+Uses `SIGTERM` by default.
+
+#### Force Kill
+
+```bash
+killall -9 testme
+```
+
+#### Send SIGHUP
+
+```bash
+killall -HUP gnome-shell
+```
+
+---
+
+
+
+---
+
+<i> Notes: <br>
+SIGTERM (15) - Ask process to exit politely <br>
+SIGKILL (9) - Force process to stop immediately<br>
+SIGHUP (1) - Reload configuration<br>
+SIGSTOP - Pause process<br>
+SIGCONT - Resume process<br>
+</i>
+
+<i> Recommendation:
+
+1. Try SIGTERM (15)
+2. If process refuses → SIGKILL (9)
+
+Avoid using `kill -9` immediately unless necessary. </i>

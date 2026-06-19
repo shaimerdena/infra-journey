@@ -74,3 +74,5 @@
 #### Day 18
 - learned about foreground and background processes
 - practiced moving jobs between the foreground and background
+#### Day 19
+- learned about killing processes

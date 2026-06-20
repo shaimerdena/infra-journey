@@ -77,3 +77,6 @@
 #### Day 19
 - learned about killing processes: `kill` and `killall`
 - studied processor priority: `nice` and `renice`
+#### Day 20
+- understood how cgroups work, but i should revisit it after docker
+- did hands-on shell exercises to reinforce key concepts

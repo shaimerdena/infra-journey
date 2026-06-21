@@ -1,5 +1,7 @@
 # Managing Running Processes
 
+> Notes based on Linux Bible and personal learning experiments.
+
 Table of Contents:
 - [Managing Running Processes](#managing-running-processes)
   - [Understanding Processes](#understanding-processes)

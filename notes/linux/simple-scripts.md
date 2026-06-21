@@ -1,5 +1,7 @@
 # Simple Scripts
 
+> Notes based on Linux Bible and personal learning experiments.
+
 Table of Contents:
 - [Simple Scripts](#simple-scripts)
   - [Understanding Shell Scripts](#understanding-shell-scripts)
@@ -10,13 +12,9 @@ Table of Contents:
       - [Debugging Techniques](#debugging-techniques)
       - [Good Practices](#good-practices)
     - [Understanding Shell Variables](#understanding-shell-variables)
-      - [Creating Variables](#creating-variables)
-    - [Command Substitution](#command-substitution)
-    - [Displaying Variables](#displaying-variables)
-    - [Escaping Special Characters](#escaping-special-characters)
-    - [Quotes](#quotes)
-      - [Examples](#examples)
-    - [Notes](#notes)
+      - [Command Substitution](#command-substitution)
+      - [Escaping Special Characters](#escaping-special-characters)
+      - [Quotes](#quotes)
 
 ## Understanding Shell Scripts
 
@@ -134,18 +132,18 @@ Useful for troubleshooting.
 
 ---
 
-#### Creating Variables
+<strong> Creating Variables </strong>
 
 Syntax:
 
 ```bash
-NAME=value
-CITY="Springfield"
+$ NAME=value
+$ CITY="Springfield"
 ```
 
 ---
 
-### Command Substitution
+#### Command Substitution
 
 A variable can store the output of a command.
 
@@ -169,23 +167,7 @@ Displays the saved output of the `date` command.
 
 ---
 
-### Displaying Variables
-
-Use `$` before the variable name:
-
-```bash
-echo $CITY
-```
-
-Output:
-
-```text
-Springfield
-```
-
----
-
-### Escaping Special Characters
+#### Escaping Special Characters
 
 Some characters have special meaning in Bash:
 
@@ -207,7 +189,7 @@ $HOME
 
 ---
 
-### Quotes
+#### Quotes
 
 | Quotes | Behavior |
 |----------|----------|
@@ -215,49 +197,9 @@ $HOME
 | `" "` | Variables and commands are expanded |
 | No quotes | Shell expands variables, wildcards, commands |
 
-#### Examples
+<i> Examples </i>
 
-```bash
-echo '$HOME'
-```
+- `echo '$HOME'`: $HOME
+- `echo "$HOME"`: /home/user
+- `echo $HOME`: /home/user
 
-Output:
-
-```text
-$HOME
-```
-
----
-
-```bash
-echo "$HOME"
-```
-
-Output:
-
-```text
-/home/user
-```
-
----
-
-```bash
-echo $HOME
-```
-
-Output:
-
-```text
-/home/user
-```
-
-### Notes
-
-```text
-NAME=value     → create variable
-$NAME          → read variable
-$(command)     → command output
-\              → escape character
-' '            → literal text
-" "            → expand variables
-```

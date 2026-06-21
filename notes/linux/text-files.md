@@ -1,5 +1,7 @@
 # Text Files
 
+> Notes based on Linux Bible and personal learning experiments.
+
 Table of Contents:
 - [Text Files](#text-files)
   - [`vim`/`vi`](#vimvi)

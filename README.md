@@ -8,6 +8,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Filesystem](notes/linux/filesystem.md)
 - [Text Files](notes/linux/text-files.md)
 - [Processes](notes/linux/processes.md)
+- [Simple Scripts](notes/linux/simple-scripts.md)
   
 ## Networking
 coming soon...

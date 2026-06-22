@@ -6,15 +6,7 @@ Table of Contents:
 - [Simple Scripts](#simple-scripts)
   - [Understanding Shell Scripts](#understanding-shell-scripts)
     - [Executing and Debugging shell scripts](#executing-and-debugging-shell-scripts)
-      - [Ways to Execute a Script](#ways-to-execute-a-script)
-      - [Command-Line Arguments](#command-line-arguments)
-      - [Comments](#comments)
-      - [Debugging Techniques](#debugging-techniques)
-      - [Good Practices](#good-practices)
     - [Understanding Shell Variables](#understanding-shell-variables)
-      - [Command Substitution](#command-substitution)
-      - [Escaping Special Characters](#escaping-special-characters)
-      - [Quotes](#quotes)
 
 ## Understanding Shell Scripts
 
@@ -24,7 +16,7 @@ Shell scripts are similar to Windows batch files. They can contain: commands, va
 
 ### Executing and Debugging shell scripts
 
-#### Ways to Execute a Script
+<strong> Ways to Execute a Script </strong>
 
 1. Run Through Bash
 
@@ -62,7 +54,7 @@ Run it:
 
 ---
 
-#### Command-Line Arguments
+<strong> Command-Line Arguments </strong>
 
 Anything after the script name is an argument.
 
@@ -76,7 +68,7 @@ Here `file.txt` is a command-line argument.
 
 ---
 
-#### Comments
+<strong> Comments </strong>
 
 Use `#` for comments.
 
@@ -86,7 +78,7 @@ echo "Hello"  # Inline comment
 
 ---
 
-#### Debugging Techniques
+<strong> Debugging Techniques </strong>
 
 1. Use `echo`
 
@@ -116,7 +108,7 @@ Useful for troubleshooting.
 
 ---
 
-#### Good Practices
+<strong> Good Practices </strong>
 
 - Write scripts in small stages
 - Test frequently
@@ -143,7 +135,7 @@ $ CITY="Springfield"
 
 ---
 
-#### Command Substitution
+<strong> Command Substitution </strong>
 
 A variable can store the output of a command.
 
@@ -167,7 +159,7 @@ Displays the saved output of the `date` command.
 
 ---
 
-#### Escaping Special Characters
+<strong> Escaping Special Characters </strong>
 
 Some characters have special meaning in Bash:
 
@@ -188,8 +180,8 @@ $HOME
 ```
 
 ---
-
-#### Quotes
+ 
+<strong> Quotes </strong>
 
 | Quotes | Behavior |
 |----------|----------|

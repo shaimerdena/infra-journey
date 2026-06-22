@@ -80,5 +80,11 @@
 #### Day 20
 - understood how cgroups work, but i should revisit it after docker
 - did hands-on shell exercises to reinforce key concepts
-#### Dau 21
+#### Day 21
 - started learning about scripts
+- understood shell variables
+## 22.06.2026 - 28.06.2026
+#### Day 22
+- practiced writing simple scripts
+- learned more about shell variables and parameter expansion
+- learned reading parameters using the `read` command

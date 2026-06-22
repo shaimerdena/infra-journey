@@ -7,6 +7,9 @@ Table of Contents:
   - [Understanding Shell Scripts](#understanding-shell-scripts)
     - [Executing and Debugging shell scripts](#executing-and-debugging-shell-scripts)
     - [Understanding Shell Variables](#understanding-shell-variables)
+      - [Special Shell Positional Parameters](#special-shell-positional-parameters)
+      - [Reading User Input](#reading-user-input)
+      - [Parameter Expansion in Bash](#parameter-expansion-in-bash)
 
 ## Understanding Shell Scripts
 
@@ -139,23 +142,9 @@ $ CITY="Springfield"
 
 A variable can store the output of a command.
 
-```bash
-MYDATE=$(date)
-```
+<i>Example: </i>
 
-Equivalent:
-
-```bash
-MYDATE=`date`
-```
-
-Example:
-
-```bash
-echo $MYDATE
-```
-
-Displays the saved output of the `date` command.
+`MYDATE=$(date)` is equivalent to `MYDATE=`date`.
 
 ---
 
@@ -195,3 +184,225 @@ $HOME
 - `echo "$HOME"`: /home/user
 - `echo $HOME`: /home/user
 
+#### Special Shell Positional Parameters
+
+<strong> Positional parameters store command-line arguments passed to a script. </strong>
+
+| Variable | Meaning |
+|----------|----------|
+| `$0` | Script name (or path used to run it) |
+| `$1` | First argument |
+| `$2` | Second argument |
+| `$3...$n` | Next arguments |
+| `$#` | Number of arguments |
+| `$@` | All arguments |
+| `$?` | Exit status of the last command |
+
+<i> Note: <br>
+the result of `$?`: <br>
+0     → success <br>
+≠ 0   → error
+</i>
+
+---
+
+#### Reading User Input
+
+<strong> `read` Command </strong>
+
+Used to get input from the user.
+
+Syntax:
+
+```bash
+read variable
+```
+
+---
+
+<strong> Prompting the User </strong>
+
+Use `-p` to display a message:
+
+```bash
+read -p "Enter your name: " name
+```
+
+---
+
+<strong> Reading Multiple Values </strong>
+
+```bash
+read adj1 noun1 verb1
+```
+
+Input:
+
+```text
+hairy football danced
+```
+
+Result:
+
+```text
+adj1  = hairy
+noun1 = football
+verb1 = danced
+```
+
+---
+
+<strong> Example Script </strong>
+
+```bash
+#!/bin/bash
+
+read -p "Type adjective noun verb: " adj1 noun1 verb1
+
+echo "He sighed and $verb1 to the elixir."
+echo "Then he ate the $adj1 $noun1."
+```
+
+Input:
+
+```text
+hairy football danced
+```
+
+Output:
+
+```text
+He sighed and danced to the elixir.
+Then he ate the hairy football.
+```
+
+#### Parameter Expansion in Bash
+
+<strong> Parameter expansion allows you to modify or extract parts of variables. </strong>
+
+---
+
+Basic Syntax
+
+These are equivalent:
+
+```bash
+$CITY
+```
+
+```bash
+${CITY}
+```
+
+Curly braces are useful when the variable is next to other text:
+
+```bash
+echo "${CITY}_backup"
+```
+
+---
+
+<strong> Default Value </strong>
+
+- `${var:-value}`: If a variable is empty or not set, use a default value.
+
+Example:
+
+```bash
+THIS="Example"
+
+THIS=${THIS:-"Not Set"}
+THAT=${THAT:-"Not Set"}
+```
+
+Results:
+
+```text
+THIS = Example
+THAT = Not Set
+```
+
+---
+
+<strong> Removing Text from the Beginning </strong>
+
+- `${var#pattern}`: Remove the shortest match from the front.
+- `${var##pattern}`: Remove the longest match from the front.
+
+Example:
+
+```bash
+MYFILENAME=/home/digby/myfile.txt
+
+FILE=${MYFILENAME##*/}
+```
+
+Result:
+
+```text
+myfile.txt
+```
+
+Explanation:
+
+```text
+##*/  → remove everything up to the last /
+```
+
+---
+
+<strong> Removing Text from the End </strong>
+
+- `${var%pattern}`: Remove the shortest match from the end.
+- `${var%%pattern}`: Remove the longest match from the end.
+
+Example:
+
+```bash
+DIR=${MYFILENAME%/*}
+```
+
+Result:
+
+```text
+/home/digby
+```
+
+Explanation:
+
+```text
+%/* → remove last / and everything after it
+```
+
+---
+
+<strong> Practical Example </strong>
+
+```bash
+MYFILENAME=/home/digby/myfile.txt
+
+FILE=${MYFILENAME##*/}
+DIR=${MYFILENAME%/*}
+NAME=${FILE%.*}
+EXTENSION=${FILE##*.}
+```
+
+Results:
+
+| Variable | Value |
+|-----------|--------|
+| MYFILENAME | /home/digby/myfile.txt |
+| FILE | myfile.txt |
+| DIR | /home/digby |
+| NAME | myfile |
+| EXTENSION | txt |
+
+---
+
+<strong> Most Useful Forms </strong>
+ 
+- `${var:-value}`: Default value if variable is empty.
+- `${FILE##*/}`: Get filename from path.
+- `${PATH%/*}`: Get directory from path.
+- `${FILE%.*}`: Get filename without extension.
+- `${FILE##*.}`: Get extension.

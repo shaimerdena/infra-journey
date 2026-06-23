@@ -88,3 +88,5 @@
 - practiced writing simple scripts
 - learned more about shell variables and parameter expansion
 - learned reading parameters using the `read` command
+#### Day 23
+- revision day

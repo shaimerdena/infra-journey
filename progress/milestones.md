@@ -90,3 +90,6 @@
 - learned reading parameters using the `read` command
 #### Day 23
 - revision day
+#### Day 24
+- practiced performing arithmetic in shell scripts
+- learned writing `if...then` statements

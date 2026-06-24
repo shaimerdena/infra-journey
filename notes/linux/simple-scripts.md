@@ -5,11 +5,28 @@
 Table of Contents:
 - [Simple Scripts](#simple-scripts)
   - [Understanding Shell Scripts](#understanding-shell-scripts)
-    - [Executing and Debugging shell scripts](#executing-and-debugging-shell-scripts)
-    - [Understanding Shell Variables](#understanding-shell-variables)
-      - [Special Shell Positional Parameters](#special-shell-positional-parameters)
-      - [Reading User Input](#reading-user-input)
-      - [Parameter Expansion in Bash](#parameter-expansion-in-bash)
+  - [Executing and Debugging shell scripts](#executing-and-debugging-shell-scripts)
+    - [Ways to Execute a Script](#ways-to-execute-a-script)
+    - [Command-Line Arguments](#command-line-arguments)
+    - [Comments](#comments)
+    - [Debugging Techniques](#debugging-techniques)
+  - [Understanding Shell Variables](#understanding-shell-variables)
+    - [Special Shell Positional Parameters](#special-shell-positional-parameters)
+    - [Reading User Input](#reading-user-input)
+    - [Parameter Expansion in Bash](#parameter-expansion-in-bash)
+  - [Performing arithmetic in shell scripts](#performing-arithmetic-in-shell-scripts)
+    - [Arithmetic with `let`](#arithmetic-with-let)
+    - [Arithmetic with `expr`](#arithmetic-with-expr)
+    - [Arithmetic with `bc`](#arithmetic-with-bc)
+    - [Random Numbers](#random-numbers)
+    - [Incrementing Variables](#incrementing-variables)
+  - [Programming contructs](#programming-contructs)
+    - [Bash `if` Statements](#bash-if-statements)
+      - [if...else](#ifelse)
+      - [if...elif...else](#ifelifelse)
+      - [Comparison Operators](#comparison-operators)
+      - [File Tests](#file-tests)
+      - [Important Rules](#important-rules)
 
 ## Understanding Shell Scripts
 
@@ -17,9 +34,17 @@ Table of Contents:
 
 Shell scripts are similar to Windows batch files. They can contain: commands, variables, loops, conditions, functions, arithmetic operations. Shell scripts can automate repetitive tasks.
 
-### Executing and Debugging shell scripts
+<strong> Good Practices </strong>
 
-<strong> Ways to Execute a Script </strong>
+- Write scripts in small stages
+- Test frequently
+- Add comments
+- Keep logic simple and readable
+- Use `echo` for debugging
+
+## Executing and Debugging shell scripts
+
+### Ways to Execute a Script
 
 1. Run Through Bash
 
@@ -57,7 +82,7 @@ Run it:
 
 ---
 
-<strong> Command-Line Arguments </strong>
+### Command-Line Arguments 
 
 Anything after the script name is an argument.
 
@@ -71,7 +96,7 @@ Here `file.txt` is a command-line argument.
 
 ---
 
-<strong> Comments </strong>
+### Comments 
 
 Use `#` for comments.
 
@@ -81,7 +106,7 @@ echo "Hello"  # Inline comment
 
 ---
 
-<strong> Debugging Techniques </strong>
+### Debugging Techniques
 
 1. Use `echo`
 
@@ -111,17 +136,7 @@ Useful for troubleshooting.
 
 ---
 
-<strong> Good Practices </strong>
-
-- Write scripts in small stages
-- Test frequently
-- Add comments
-- Keep logic simple and readable
-- Use `echo` for debugging
-
----
-
-### Understanding Shell Variables
+## Understanding Shell Variables
 
 <strong> Variables store data that can be reused in a shell script. </strong>
 
@@ -184,7 +199,7 @@ $HOME
 - `echo "$HOME"`: /home/user
 - `echo $HOME`: /home/user
 
-#### Special Shell Positional Parameters
+### Special Shell Positional Parameters
 
 <strong> Positional parameters store command-line arguments passed to a script. </strong>
 
@@ -206,7 +221,7 @@ the result of `$?`: <br>
 
 ---
 
-#### Reading User Input
+### Reading User Input
 
 <strong> `read` Command </strong>
 
@@ -276,7 +291,7 @@ He sighed and danced to the elixir.
 Then he ate the hairy football.
 ```
 
-#### Parameter Expansion in Bash
+### Parameter Expansion in Bash
 
 <strong> Parameter expansion allows you to modify or extract parts of variables. </strong>
 
@@ -343,12 +358,6 @@ Result:
 myfile.txt
 ```
 
-Explanation:
-
-```text
-##*/  → remove everything up to the last /
-```
-
 ---
 
 <strong> Removing Text from the End </strong>
@@ -366,12 +375,6 @@ Result:
 
 ```text
 /home/digby
-```
-
-Explanation:
-
-```text
-%/* → remove last / and everything after it
 ```
 
 ---
@@ -406,3 +409,273 @@ Results:
 - `${PATH%/*}`: Get directory from path.
 - `${FILE%.*}`: Get filename without extension.
 - `${FILE##*.}`: Get extension.
+
+## Performing arithmetic in shell scripts
+
+<strong> Bash variables are untyped, but Bash can automatically treat values as numbers when performing arithmetic. </strong>
+
+---
+
+### Arithmetic with `let`
+
+Syntax:
+
+```bash
+let RESULT=$BIGNUM/16
+```
+
+Result:
+
+```text
+RESULT = 64
+```
+ 
+<i> Note: No spaces around operators. Correct: `let RESULT=$BIGNUM/16`, Wrong: `let RESULT = $BIGNUM / 16`.</i>
+
+---
+
+### Arithmetic with `expr`
+
+Syntax:
+
+```bash
+RESULT=`expr $BIGNUM / 16`
+```
+
+Result:
+
+```text
+64
+```
+
+<i> Note: Spaces are required. Correct: `expr 1024 / 16`, Wrong: `expr 1024/16`.</i>
+
+---
+
+### Arithmetic with `bc`
+
+Syntax:
+
+```bash
+RESULT=`echo "$BIGNUM / 16" | bc`
+```
+
+Result:
+
+```text
+64
+```
+
+Features:
+
+- Supports floating-point numbers
+- Flexible spacing
+
+---
+
+### Random Numbers
+
+```bash
+let foo=$RANDOM
+echo $foo
+```
+
+`$RANDOM` generates a random integer.
+
+---
+
+### Incrementing Variables
+
+<strong> Pre-increment: Increase first, then use value </strong>
+
+```bash
+I=1
+echo $((++I))
+```
+
+Output:
+
+```text
+2
+```
+
+---
+
+<strong> Post-increment: Use current value, then increase </strong>
+
+```bash
+I=1
+echo $((I++))
+echo $I
+```
+
+Output:
+
+```text
+1
+2
+```
+
+---
+
+## Programming contructs
+
+### Bash `if` Statements
+
+Used for conditional execution.
+
+---
+
+#### if...else
+
+```bash
+if [ condition ]; then
+    commands
+else
+    commands
+fi
+```
+
+Example:
+
+```bash
+STRING="Friday"
+
+if [ "$STRING" = "Friday" ]; then
+    echo "WhooHoo. Friday."
+else
+    echo "Will Friday ever get here?"
+fi
+```
+
+---
+
+#### if...elif...else
+
+```bash
+if [ condition1 ]; then
+    commands
+elif [ condition2 ]; then
+    commands
+else
+    commands
+fi
+```
+
+Example:
+
+```bash
+filename="$HOME"
+
+if [ -f "$filename" ]; then
+    echo "Regular file"
+elif [ -d "$filename" ]; then
+    echo "Directory"
+else
+    echo "Unknown"
+fi
+```
+
+---
+
+#### Comparison Operators
+
+<strong> Numeric </strong>
+
+| Operator | Meaning |
+|-----------|----------|
+| `-eq` | equal |
+| `-ne` | not equal |
+| `-gt` | greater than |
+| `-ge` | greater than or equal |
+| `-lt` | less than |
+| `-le` | less than or equal |
+
+Example:
+
+```bash
+if [ $A -gt $B ]; then
+```
+
+---
+
+<strong> String </strong>
+
+| Operator | Meaning |
+|-----------|----------|
+| `=` | equal |
+| `!=` | not equal |
+
+Examples:
+
+```bash
+if [ "$NAME" = "Ayau" ]; then
+```
+
+```bash
+if [ "$NAME" != "Ayau" ]; then
+```
+
+---
+
+<strong> NOT Operator </strong>
+
+```bash
+if [ "$STRING" != "Monday" ]; then
+    echo "At least it's not Monday"
+fi
+```
+
+---
+
+#### File Tests
+
+| Test | Meaning |
+|--------|----------|
+| `-f file` | regular file |
+| `-d file` | directory |
+| `-e file` | exists |
+| `-r file` | readable |
+| `-w file` | writable |
+| `-x file` | executable |
+
+Examples:
+
+```bash
+if [ -f file.txt ]; then
+```
+
+```bash
+if [ -d /home ]; then
+```
+
+---
+
+#### Important Rules
+
+<strong> Spaces are required </strong>
+
+Correct:
+
+```bash
+if [ $A -eq 1 ]; then
+```
+
+Wrong:
+
+```bash
+if [$A -eq 1]; then
+```
+
+---
+
+<strong> Strings should be quoted </strong>
+
+Correct:
+
+```bash
+if [ "$STRING" = "Friday" ]; then
+```
+
+---
+

@@ -93,3 +93,7 @@
 #### Day 24
 - practiced performing arithmetic in shell scripts
 - learned writing `if...then` statements
+#### Day 25
+- learned using `case` command
+- practiced writing `for...do` loop
+- practiced writing `while...do` and `until...do` loops

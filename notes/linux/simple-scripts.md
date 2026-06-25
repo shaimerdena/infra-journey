@@ -24,9 +24,25 @@ Table of Contents:
     - [Bash `if` Statements](#bash-if-statements)
       - [if...else](#ifelse)
       - [if...elif...else](#ifelifelse)
-      - [Comparison Operators](#comparison-operators)
+    - [Bash Test Operators](#bash-test-operators)
       - [File Tests](#file-tests)
-      - [Important Rules](#important-rules)
+      - [String Tests](#string-tests)
+      - [Numeric Comparisons](#numeric-comparisons)
+      - [Logical Operators](#logical-operators)
+      - [File Time Comparisons](#file-time-comparisons)
+      - [Rarely Used (System Administration)](#rarely-used-system-administration)
+    - [Bash Shortcuts for `if`](#bash-shortcuts-for-if)
+      - [Execute if FALSE (`||`)](#execute-if-false-)
+      - [Execute if TRUE (`&&`)](#execute-if-true-)
+      - [One-line if...else (`&&` + `||`)](#one-line-ifelse---)
+    - [`case` command](#case-command)
+    - [`for...do` Loop](#fordo-loop)
+      - [General Syntax](#general-syntax)
+      - [C-style for Loop](#c-style-for-loop)
+    - [`while...do` and `until...do` Loops](#whiledo-and-untildo-loops)
+      - [`while` Loop](#while-loop)
+      - [`until` Loop](#until-loop)
+    - [Comparison](#comparison)
 
 ## Understanding Shell Scripts
 
@@ -578,104 +594,409 @@ fi
 
 ---
 
-#### Comparison Operators
+### Bash Test Operators
 
-<strong> Numeric </strong>
+#### File Tests
+
+| Operator | Meaning | Memory Trick |
+|----------|---------|-------------|
+| `-e file` | File exists | **e = exists** |
+| `-f file` | Regular file | **f = file** |
+| `-d file` | Directory | **d = directory** |
+| `-r file` | Readable | **r = read** |
+| `-w file` | Writable | **w = write** |
+| `-x file` | Executable | **x = execute** |
+| `-s file` | Exists and size > 0 | **s = size** |
+| `-L file` | Symbolic link | **L = Link** |
+| `-h file` | Symbolic link | Same as `-L` |
+| `-O file` | You own the file | **O = Owner** |
+
+---
+
+#### String Tests
+
+| Operator | Meaning | Memory Trick |
+|----------|---------|-------------|
+| `-n string` | String is not empty | **n = not empty** |
+| `-z string` | String is empty | **z = zero length** |
+| `str1 = str2` | Strings are equal | Standard equality |
+| `str1 != str2` | Strings are not equal | Standard inequality |
+
+---
+
+#### Numeric Comparisons
+
+| Operator | Meaning | Memory Trick |
+|----------|---------|-------------|
+| `-eq` | Equal | **eq = equal** |
+| `-ne` | Not equal | **ne = not equal** |
+| `-gt` | Greater than | **gt = greater than** |
+| `-lt` | Less than | **lt = less than** |
+| `-ge` | Greater or equal | **ge = greater/equal** |
+| `-le` | Less or equal | **le = less/equal** |
+
+---
+
+#### Logical Operators
+
+| Operator | Meaning | Memory Trick |
+|----------|---------|-------------|
+| `expr1 -a expr2` | AND | **a = and** |
+| `expr1 -o expr2` | OR | **o = or** |
+| `! expr` | NOT | Negation |
+
+---
+
+#### File Time Comparisons
+
+| Operator | Meaning | Memory Trick |
+|----------|---------|-------------|
+| `file1 -nt file2` | file1 is newer | **nt = newer than** |
+| `file1 -ot file2` | file1 is older | **ot = older than** |
+| `file1 -ef file2` | Same file/link | **ef = equal file** |
+
+---
+
+#### Rarely Used (System Administration)
 
 | Operator | Meaning |
-|-----------|----------|
-| `-eq` | equal |
-| `-ne` | not equal |
-| `-gt` | greater than |
-| `-ge` | greater than or equal |
-| `-lt` | less than |
-| `-le` | less than or equal |
+|----------|---------|
+| `-b file` | Block device |
+| `-c file` | Character device |
+| `-g file` | SGID bit set |
+| `-k file` | Sticky bit set |
+| `-p file` | Named pipe |
+| `-S file` | Socket |
+| `-t fd` | Terminal descriptor |
+| `-u file` | SUID bit set |
+
+---
+
+### Bash Shortcuts for `if`
+
+Instead of writing a full `if...then`, Bash allows short one-line conditions.
+
+---
+
+#### Execute if FALSE (`||`)
+
+Syntax:
+
+```bash
+[test] || command
+```
+
+Meaning: If the test is **false**, execute the command.
 
 Example:
 
 ```bash
-if [ $A -gt $B ]; then
+dirname="/tmp/testdir"
+
+[ -d "$dirname" ] || mkdir "$dirname"
 ```
 
 ---
 
-<strong> String </strong>
+#### Execute if TRUE (`&&`)
 
-| Operator | Meaning |
-|-----------|----------|
-| `=` | equal |
-| `!=` | not equal |
-
-Examples:
+Syntax:
 
 ```bash
-if [ "$NAME" = "Ayau" ]; then
+[test] && command
 ```
 
-```bash
-if [ "$NAME" != "Ayau" ]; then
-```
+Meaning: If the test is **true**, execute the command.
 
----
-
-<strong> NOT Operator </strong>
+Example:
 
 ```bash
-if [ "$STRING" != "Monday" ]; then
-    echo "At least it's not Monday"
-fi
+[ $# -ge 3 ] && echo "There are at least 3 arguments."
 ```
 
 ---
 
-#### File Tests
+#### One-line if...else (`&&` + `||`)
 
-| Test | Meaning |
-|--------|----------|
-| `-f file` | regular file |
-| `-d file` | directory |
-| `-e file` | exists |
-| `-r file` | readable |
-| `-w file` | writable |
-| `-x file` | executable |
-
-Examples:
+Syntax:
 
 ```bash
-if [ -f file.txt ]; then
+[test] && command1 || command2
 ```
 
-```bash
-if [ -d /home ]; then
+Meaning:
+
+```text
+If test is TRUE  → run command1
+Else             → run command2
 ```
 
----
-
-#### Important Rules
-
-<strong> Spaces are required </strong>
-
-Correct:
+Example:
 
 ```bash
-if [ $A -eq 1 ]; then
-```
+dirname="mydirectory"
 
-Wrong:
-
-```bash
-if [$A -eq 1]; then
+[ -e "$dirname" ] && echo "$dirname already exists" || mkdir "$dirname"
 ```
 
 ---
 
-<strong> Strings should be quoted </strong>
+### `case` command
 
-Correct:
+`case` is used when you need to check one value against multiple possible options.
+
+It is often cleaner and easier to read than many nested `if...elif...else` statements.
+
+---
+
+<strong> General Syntax </strong>
 
 ```bash
-if [ "$STRING" = "Friday" ]; then
+case VARIABLE in
+    value1)
+        commands
+        ;;
+    value2)
+        commands
+        ;;
+    *)
+        default commands
+        ;;
+esac
+```
+
+<strong> Important Parts </strong>
+
+| Syntax | Meaning |
+|----------|----------|
+| `case` | Start of case statement |
+| `value)` | Condition to match |
+| `;;` | End of a case branch |
+| `|` | OR |
+| `*` | Default / catch-all case |
+| `esac` | End of case (`case` backwards) |
+
+---
+
+<i> Example </i>
+
+```bash
+read -p "Choose a color: " color
+case "$color" in
+    red)
+        echo "You chose red."
+        ;;
+    blue)
+        echo "You chose blue."
+        ;;
+    green)
+        echo "You chose green."
+        ;;
+    *)
+        echo "Unknown color."
+        ;;
+esac
 ```
 
 ---
 
+<i> Using OR (`|`) </i>
+
+```bash
+case "$answer" in
+    y|Y)
+        echo "Yes"
+        ;;
+    n|N)
+        echo "No"
+        ;;
+    *)
+        echo "Invalid input"
+        ;;
+esac
+```
+
+---
+
+### `for...do` Loop
+
+`for` loop is used to repeat actions for every item in a list.
+
+---
+
+#### General Syntax 
+
+```bash
+for VARIABLE in LIST
+do
+    commands
+done
+```
+
+Or in one line:
+
+```bash
+for VARIABLE in LIST ; do
+    commands
+done
+```
+
+---
+
+<i> Example </i>
+
+```bash
+for NAME in John Paul George Ringo
+do
+    echo "$NAME"
+done
+```
+
+Output:
+
+```text
+John
+Paul
+George
+Ringo
+```
+
+---
+
+<i> Example with Files </i>
+
+```bash
+for FILE in *
+do
+    echo "$FILE"
+done
+```
+
+`*` means all files in the current directory.
+
+---
+
+#### C-style for Loop
+
+Structure:
+
+```bash
+for ((initialization; condition; increment))
+```
+
+Example:
+
+```bash
+for ((i=1; i<=10; i++))
+do
+    echo "$i"
+done
+```
+
+---
+
+### `while...do` and `until...do` Loops
+
+Used when repetition depends on a condition.
+
+---
+
+#### `while` Loop
+
+<strong> General Syntax </strong>
+
+```bash
+while [ condition ]
+do
+    commands
+done
+```
+
+---
+
+<i> Example </i>
+
+```bash
+N=0
+
+while [ $N -lt 5 ]
+do
+    echo $N
+    let N=$N+1
+done
+```
+
+Output:
+
+```text
+0
+1
+2
+3
+4
+```
+
+---
+
+#### `until` Loop
+
+<strong> General Syntax </strong>
+
+```bash
+until [ condition ]
+do
+    commands
+done
+```
+
+---
+
+<i> Example </i>
+
+```bash
+N=0
+
+until [ $N -eq 5 ]
+do
+    echo $N
+    let N=$N+1
+done
+```
+
+Output:
+
+```text
+0
+1
+2
+3
+4
+```
+
+---
+
+### Comparison
+
+| Loop | Runs When |
+|--------|------------|
+| `while` | Condition is TRUE |
+| `until` | Condition is FALSE |
+
+---
+
+<i> Same Logic Example </i>
+
+
+```bash
+while [ $N -lt 10 ]
+
+until [ $N -eq 10 ]
+```
+
+Meaning:
+
+```text
+Run while N < 10
+```
+
+---

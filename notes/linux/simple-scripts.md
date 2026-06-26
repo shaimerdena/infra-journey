@@ -42,7 +42,8 @@ Table of Contents:
     - [`while...do` and `until...do` Loops](#whiledo-and-untildo-loops)
       - [`while` Loop](#while-loop)
       - [`until` Loop](#until-loop)
-    - [Comparison](#comparison)
+    - [Text manipulation programs](#text-manipulation-programs)
+      - [`grep` — Search for Patterns in Text](#grep--search-for-patterns-in-text)
 
 ## Understanding Shell Scripts
 
@@ -833,14 +834,6 @@ do
 done
 ```
 
-Or in one line:
-
-```bash
-for VARIABLE in LIST ; do
-    commands
-done
-```
-
 ---
 
 <i> Example </i>
@@ -975,28 +968,26 @@ Output:
 
 ---
 
-### Comparison
+### Text manipulation programs
 
-| Loop | Runs When |
-|--------|------------|
-| `while` | Condition is TRUE |
-| `until` | Condition is FALSE |
+#### `grep` — Search for Patterns in Text
 
----
-
-<i> Same Logic Example </i>
-
+`grep` (General Regular Expression Print) is used to search for text patterns in files or command output.
 
 ```bash
-while [ $N -lt 10 ]
-
-until [ $N -eq 10 ]
+grep PATTERN file
 ```
 
-Meaning:
-
-```text
-Run while N < 10
-```
+Searches for lines containing `PATTERN`.
 
 ---
+
+<i> Examples </i>
+
+- Find all lines containing `/home` inside a file: `grep /home /etc/passwd`
+- Searches the output of the command `env`: `env | grep HOME`
+
+<i> `^` - Find lines that START with </i>
+
+---
+

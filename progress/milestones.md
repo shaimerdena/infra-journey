@@ -98,3 +98,5 @@
 - practiced writing `for...do` loop
 - practiced writing `while...do` and `until...do` loops
 #### Day 26
+- tries some useful text manipulation programs
+- practiced using `grep` command

@@ -100,3 +100,7 @@
 #### Day 26
 - tries some useful text manipulation programs
 - practiced using `grep` command
+#### Day 27
+- learned `cut` for extracting fields
+- learned `tr` for translating and replacing characters
+- learned `sed` for searching and editing text 

@@ -103,4 +103,6 @@
 #### Day 27
 - learned `cut` for extracting fields
 - learned `tr` for translating and replacing characters
-- learned `sed` for searching and editing text 
+- learned `sed` for searching and editing text
+#### Day 28
+- reviewed scripts written in the book 

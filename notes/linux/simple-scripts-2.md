@@ -507,24 +507,9 @@ cut -d'SEPARATOR' -fFIELD
 
 File: `john:x:1000:/home/john`
 
-Command:
-
 ```bash
-cut -d':' -f4
-```
-
-Output:
-
-```text
+$ cut -d':' -f4
 /home/john
-```
-
-<i> Common Example </i>
-
-Show users' home directories:
-
-```bash
-grep /home /etc/passwd | cut -d':' -f6
 ```
 
 ---
@@ -542,12 +527,7 @@ tr OLD NEW
 <strong> Convert Uppercase → Lowercase </strong>
 
 ```bash
-echo "HELLO" | tr 'A-Z' 'a-z'
-```
-
-Output:
-
-```text
+$ echo "HELLO" | tr 'A-Z' 'a-z'
 hello
 ```
 
@@ -556,12 +536,7 @@ hello
 <strong> Replace Spaces with Underscores </strong>
 
 ```bash
-echo "Hello World" | tr ' ' '_'
-```
-
-Output:
-
-```text
+$ echo "Hello World" | tr ' ' '_'
 Hello_World
 ```
 

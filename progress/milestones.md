@@ -106,3 +106,6 @@
 - learned `sed` for searching and editing text
 #### Day 28
 - reviewed scripts written in the book 
+## 29.06.2026 - 05.07.2026
+#### Day 29
+- did hands-on shell exercises to reinforce key concepts

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#the loop below goes through the animals
+for i in moose cow goose sow
+do
+echo "I have a $i"
+done

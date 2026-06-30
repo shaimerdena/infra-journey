@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#the command below takes arguments
+one=$1
+two=$2
+three=$3
+#the command below shows how many parameters were entered and shows them
+echo "There are $# parameters that include $*."
+#the command below shows the arguments
+echo "The first is $one, the second is $two, the third is $three."

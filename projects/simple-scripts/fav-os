@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#the command below prompts the user for os
+read -p "What is your favourite operating system? " myos
+#the command below gives a comment
+if [ $myos = "Mac" -o $myos = "Windows" ] ; then
+echo "Great choice!"
+else
+echo "Is $myos an operating system?"
+fi

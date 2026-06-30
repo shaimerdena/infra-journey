@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#the command below prompts the user for the street and town
+read -p "Enter your street and town: " mystreet mytown
+#the command below outputs them
+echo "The street I grew up on was $mystreet and the town was $mytown"

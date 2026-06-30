@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#the command below shows the current time and date
+echo Today is `date +"%a %b %d %H:%M:%S EST %Y"`
+#the command below shows the current working directory and the hostname
+echo You are in `pwd` and your host is `hostname`

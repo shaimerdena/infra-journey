@@ -24,5 +24,7 @@ coming soon...
 
 ## Progress
 - [Milestones](progress/milestones.md)
+## Projects (scripts)
+- [Simple scripts](projects/simple-scripts)
 ## Resources
 - Linux Bible (11th Edition, 2026) - Negus Christopher

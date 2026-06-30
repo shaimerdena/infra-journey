@@ -109,3 +109,5 @@
 ## 29.06.2026 - 05.07.2026
 #### Day 29
 - did hands-on shell exercises to reinforce key concepts
+#### Day 30
+- wrote simple scripts

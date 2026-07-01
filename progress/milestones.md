@@ -111,3 +111,5 @@
 - did hands-on shell exercises to reinforce key concepts
 #### Day 30
 - wrote simple scripts
+#### Day 31
+- started learning about system administration

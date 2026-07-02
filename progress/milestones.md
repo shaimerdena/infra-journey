@@ -113,3 +113,5 @@
 - wrote simple scripts
 #### Day 31
 - started learning about system administration
+#### Day 32
+- understood the importance of system administration

@@ -116,3 +116,5 @@
 #### Day 32
 - understood the importance of system administration
 #### Day 33
+- went through the responsibilities of a Linux system administrator
+- learned about gaining admin access using `su`, `sudo`, and Cockpit

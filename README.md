@@ -10,6 +10,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Processes](notes/linux/processes.md)
 - [Simple Scripts 1](notes/linux/simple-scripts-1.md)
 - [Simple Scripts 2](notes/linux/simple-scripts-2.md)
+- [System Administration](notes/linux/sys-admin.md)
   
 ## Networking
 coming soon...

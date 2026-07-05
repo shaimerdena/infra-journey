@@ -8,6 +8,7 @@ Table of Contents:
     - [Gaining admin access](#gaining-admin-access)
     - [Responsibilities of a Linux System Administrator](#responsibilities-of-a-linux-system-administrator)
   - [Using the Root Account](#using-the-root-account)
+    - [`su` command](#su-command)
 
 ## Understanding System Administration
 
@@ -54,3 +55,69 @@ A system administrator is responsible for configuring, maintaining, and securing
 ## Using the Root Account
 
 The root account is the superuser in Linux, with unrestricted access to all commands and files. It is used for system administration tasks that require elevated privileges.
+
+After logging in as the **root** user:
+- **Home directory:** `/root`
+- **Default shell:** `/bin/bash`
+
+The root user's information is stored in the **`/etc/passwd`** file.
+
+Example:
+
+```text
+root:x:0:0:root:/root:/bin/bash
+```
+
+| Field | Value | Description |
+|--------|-------|-------------|
+| Username | `root` | User name |
+| Password | `x` | Password is stored in `/etc/shadow` (encrypted) |
+| UID | `0` | User ID (root) |
+| GID | `0` | Primary group ID (root group) |
+| Comment | `root` | User description |
+| Home directory | `/root` | Root user's home directory |
+| Login shell | `/bin/bash` | Default shell |
+
+<i> Notes:
+- The **encrypted password** is stored in **`/etc/shadow`**, not in `/etc/passwd`.
+- Although you **can** edit `/etc/passwd` manually, it is **recommended** to use commands like **`usermod`** to change a user's home directory or login shell.
+- type `exit` to log out of the root account and return to your regular user account.
+</i>
+
+### `su` command
+
+The **`su` (switch user)** command allows you to switch to another user (by default, `root`) without logging out.
+
+```bash
+su [options] [username]
+```
+
+| Command | Description |
+|---------|-------------|
+| `su` | Switch to the root user **without** loading the root user's environment. |
+| `su -` | Switch to the root user **and load** the root user's login environment (recommended). |
+| `su - username` | Switch to another user's account and load their environment. |
+
+---
+
+`su` vs `su -`
+
+| `su` | `su -` |
+|------|---------|
+| Changes user only | Changes user **and** loads their environment |
+| Keeps current working directory | Changes to the user's home directory |
+| Keeps current environment variables | Loads the new user's environment variables (e.g., `PATH`) |
+| May cause `command not found` errors | Behaves like a normal login |
+
+<i> Notes:
+
+- `su` requires the **target user's password**.
+- If you're already **root**, you can switch to another user without entering a password.
+- Exit the root shell with:
+  ```bash
+  exit
+  ```
+  or press **Ctrl + D**.
+
+- Never leave an open **root shell** unattended on a shared computer.
+</i>

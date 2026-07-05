@@ -118,3 +118,6 @@
 #### Day 33
 - went through the responsibilities of a Linux system administrator
 - learned about gaining admin access using `su`, `sudo`, and Cockpit
+#### Day 34
+- learned about ``su`` command and its usage
+- learned the difference between `su` and `su -`

@@ -10,6 +10,9 @@ Table of Contents:
   - [Using the Root Account](#using-the-root-account)
     - [`su` command](#su-command)
     - [`sudo` command](#sudo-command)
+      - [Common Rules](#common-rules)
+      - [Using `sudo`](#using-sudo)
+    - [`su` vs `sudo`](#su-vs-sudo)
 
 ## Understanding System Administration
 
@@ -125,3 +128,82 @@ su [options] [username]
 
 ### `sudo` command
 
+`sudo` allows a regular user to execute commands with **root privileges** without logging in as the root user.
+
+What `sudo` can do?
+
+- Run **any command** as root.
+- Allow only **specific commands** to be executed as root.
+- Use the **user's own password** instead of the root password.
+- Optionally allow commands **without asking for a password** (`NOPASSWD`).
+- Log **which user** executed administrative commands.
+
+<i> Note: Unlike `su`, `sudo` records exactly **who** ran each command. </i>
+
+---
+
+<strong> Configuration </strong>
+
+Administrative permissions are configured in: `/etc/sudoers`
+
+Always edit this file using:
+
+```bash
+visudo
+```
+
+<strong> Why `visudo`? </strong>
+
+- Locks the file to prevent simultaneous edits.
+- Checks the syntax before saving.
+- Prevents breaking the `sudoers` configuration.
+
+---
+
+#### Common Rules
+
+Give a user full sudo privileges - `joe ALL=(ALL) ALL`
+
+Meaning:
+
+- **joe** → user
+- **ALL** → any host
+- **(ALL)** → can act as any user
+- **ALL** → may run any command
+
+---
+
+Allow sudo without a password - `joe ALL=(ALL) NOPASSWD: ALL`
+
+---
+
+#### Using `sudo`
+
+```bash
+sudo apt update
+sudo systemctl restart nginx
+sudo useradd alice
+```
+
+The user enters **their own password**, not the root password.
+
+---
+
+<strong> Password Timeout </strong>
+
+After entering the password once, `sudo` remembers it for a short period.
+
+- **Fedora/RHEL:** 5 minutes (default)
+- **Ubuntu:** configurable in `/etc/sudoers`
+
+---
+
+### `su` vs `sudo`
+
+| `su` | `sudo` |
+|------|---------|
+| Switches to another user (usually `root`) | Runs **one command** as root |
+| Requires the **root password** | Requires the **current user's password** |
+| Opens a root shell | Returns to the normal user after the command finishes |
+| Does not record which user executed commands | Logs which user executed each command |
+| Better for long administrative sessions | Better for everyday administration |

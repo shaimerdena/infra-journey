@@ -121,3 +121,7 @@
 #### Day 34
 - learned about ``su`` command and its usage
 - learned the difference between `su` and `su -`
+## 06.07.2026 - 12.07.2026
+#### Day 35
+- learned about `sudo` command and its usage
+- learned how to configure `sudo` access for users

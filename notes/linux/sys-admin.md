@@ -9,6 +9,7 @@ Table of Contents:
     - [Responsibilities of a Linux System Administrator](#responsibilities-of-a-linux-system-administrator)
   - [Using the Root Account](#using-the-root-account)
     - [`su` command](#su-command)
+    - [`sudo` command](#sudo-command)
 
 ## Understanding System Administration
 
@@ -121,3 +122,6 @@ su [options] [username]
 
 - Never leave an open **root shell** unattended on a shared computer.
 </i>
+
+### `sudo` command
+

@@ -13,6 +13,11 @@ Table of Contents:
       - [Common Rules](#common-rules)
       - [Using `sudo`](#using-sudo)
     - [`su` vs `sudo`](#su-vs-sudo)
+  - [Admin commands, config files and logs](#admin-commands-config-files-and-logs)
+    - [Admin commands](#admin-commands)
+      - [Common Administrative Commands](#common-administrative-commands)
+      - [Installing Your Own Commands](#installing-your-own-commands)
+    - [Admin Configuration Files](#admin-configuration-files)
 
 ## Understanding System Administration
 
@@ -207,3 +212,64 @@ After entering the password once, `sudo` remembers it for a short period.
 | Opens a root shell | Returns to the normal user after the command finishes |
 | Does not record which user executed commands | Logs which user executed each command |
 | Better for long administrative sessions | Better for everyday administration |
+
+
+## Admin commands, config files and logs 
+
+### Admin commands
+
+Administrative commands are mainly used by the **root user** or users with **`sudo` privileges**.
+
+| Directory | Purpose |
+|-----------|---------|
+| `/usr/sbin` | Contains most **system administration commands** (user management, services, networking, system configuration, etc.). |
+| `/sbin` | Usually a symbolic link to `/usr/sbin` on modern Linux distributions. |
+
+<i> Notes: In modern Ubuntu, Fedora, and RHEL, most administrative commands are located in **`/usr/sbin`**. </i>
+
+---
+
+#### Common Administrative Commands
+
+| Command | Purpose |
+|---------|---------|
+| `useradd` | Create a new user |
+| `usermod` | Modify a user |
+| `userdel` | Delete a user |
+| `passwd` | Change a user's password |
+| `mount` | Mount a filesystem |
+| `umount` | Unmount a filesystem |
+| `systemctl` | Manage system services |
+| `shutdown` | Shut down or reboot the system |
+
+---
+
+<strong> Manual Pages </strong>
+
+Administrative commands are usually documented in **Section 8** of the Linux manual.
+
+```bash
+man 8 command
+```
+
+Example:
+
+```bash
+man 8 useradd
+```
+
+---
+
+#### Installing Your Own Commands
+
+If you create your own administrative scripts or install third-party tools, common locations are:
+
+| Directory | Purpose |
+|-----------|---------|
+| `/usr/local/bin` | User-installed executable programs |
+| `/usr/local/sbin` | User-installed administrative commands |
+| `/opt` | Optional third-party applications |
+
+These directories are usually included in the system's `PATH`.
+
+### Admin Configuration Files

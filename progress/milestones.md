@@ -126,3 +126,5 @@
 - learned about `sudo` command and its usage
 - learned how to configure `sudo` access for users
 - learned about the `sudoers` file and how to edit it safely using `visudo
+#### Day 36
+- studied common administrative commands like `shutdown`, `reboot`, `systemctl`, `journalctl`, and `dmesg`

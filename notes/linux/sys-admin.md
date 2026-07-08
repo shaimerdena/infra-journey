@@ -18,6 +18,9 @@ Table of Contents:
       - [Common Administrative Commands](#common-administrative-commands)
       - [Installing Your Own Commands](#installing-your-own-commands)
     - [Admin Configuration Files](#admin-configuration-files)
+      - [Admin Log files and systemd journal](#admin-log-files-and-systemd-journal)
+        - [`journalctl` command](#journalctl-command)
+        - [`rsyslog`](#rsyslog)
 
 ## Understanding System Administration
 
@@ -273,3 +276,135 @@ If you create your own administrative scripts or install third-party tools, comm
 These directories are usually included in the system's `PATH`.
 
 ### Admin Configuration Files
+
+Main configuration locations:
+
+| Directory | Purpose |
+|-----------|---------|
+| `~/` (Home directory) | User-specific configuration files. |
+| `/etc` | System-wide configuration files used by the operating system and services. |
+
+**Cheat sheet for common configuration files: [Linux Configuration Files Cheat Sheet](linux-filesystem-cheat-sheet.md)**
+
+#### Admin Log files and systemd journal
+
+Log files record events that occur in the operating system.
+
+They are useful for:
+
+- Troubleshooting errors
+- Debugging applications and services
+- Monitoring system activity
+- Detecting security issues
+
+---
+
+**Logging Systems**
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `journalctl` | View logs collected by **systemd journal**. The boot process, the kernel, and all systemd-managed services direct their status and error messages to the systemd journal. | 🟢 Modern (recommended) |
+| `rsyslogd` | Traditional Linux logging daemon | 🟡 Still widely used |
+| `syslogd` | Older logging daemon | 🔴 Legacy |
+
+<i> Notes: Modern Linux distributions (Ubuntu, Fedora, RHEL) primarily use **systemd journal**. </i>
+
+---
+
+##### `journalctl` command
+
+The `journalctl` command is used to view logs collected by **systemd journal**.
+
+| Command | Description |
+|---------|-------------|
+| `journalctl` | Show all logs. |
+| `journalctl -n 20` | Show the last 20 log entries. |
+| `journalctl -f` | Follow new log messages in real time (like `tail -f`). |
+| `journalctl -b` | Show logs from the current boot. |
+| `journalctl --list-boots` | List all recorded system boots. |
+| `journalctl -b <BOOT_ID>` | Show logs from a specific boot. |
+| `journalctl -k` | Show only kernel messages. |
+| `journalctl -u ssh.service` | Show logs for a specific service. |
+| `journalctl PRIORITY=0` | Show only messages with a specific priority (0–7). |
+| `journalctl -a` | Display all available fields (don't truncate output). |
+| `journalctl -a -f` | Follow logs in real time and display all fields. |
+
+---
+
+Log Priorities
+
+| Priority | Meaning |
+|:-------:|---------|
+| `0` | Emergency |
+| `1` | Alert |
+| `2` | Critical |
+| `3` | Error |
+| `4` | Warning |
+| `5` | Notice |
+| `6` | Informational |
+| `7` | Debug |
+
+---
+
+Most Useful Commands (Daily Use)
+
+```bash
+journalctl              # All logs
+journalctl -n 20        # Last 20 logs
+journalctl -f           # Follow logs in real time
+journalctl -b           # Current boot
+journalctl -k           # Kernel logs
+journalctl -u nginx     # Logs for nginx service
+journalctl -u ssh       # Logs for SSH service
+journalctl -p err       # Only error messages
+```
+
+<i> Tip: When troubleshooting a service, a common workflow is:
+
+```bash
+systemctl status nginx
+journalctl -u nginx -n 30
+```
+
+First check the service status, then inspect its most recent logs. 
+</i>
+
+##### `rsyslog`
+
+`rsyslog` is a logging daemon that collects system and application log messages.
+
+It can:
+
+- Store logs in files.
+- Forward logs to remote log servers.
+- Filter and organize log messages.
+
+<i> Note: Modern Linux systems often use **`systemd-journald`** together with **`rsyslog`**. </i>
+
+---
+
+Configuration
+
+| File | Purpose |
+|------|---------|
+| `/etc/rsyslog.conf` | Main `rsyslog` configuration file. |
+
+---
+
+Common Log Files
+
+| File | Purpose |
+|------|---------|
+| `/var/log/boot.log` | Boot process messages. |
+| `/var/log/messages` | General system messages. |
+| `/var/log/secure` | Authentication and security-related events. |
+
+---
+
+<i> Notes:
+
+- `journalctl` reads logs from **systemd journal**.
+- `rsyslog` stores logs in **text files** (usually in `/var/log`).
+- Many enterprise Linux systems use **both** `journald` and `rsyslog`.
+</i>
+

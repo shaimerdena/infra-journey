@@ -128,3 +128,7 @@
 - learned about the `sudoers` file and how to edit it safely using `visudo
 #### Day 36
 - studied common administrative commands like `shutdown`, `reboot`, `systemctl`, `journalctl`, and `dmesg`
+#### Day 37
+- went throgth the admin configuration files in `/etc` directory
+- understood how to view systemd journal logs using `journalctl`
+- understood how log messages are managed using `rsyslog` and stored in `/var/log`

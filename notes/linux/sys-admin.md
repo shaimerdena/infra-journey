@@ -284,7 +284,7 @@ Main configuration locations:
 | `~/` (Home directory) | User-specific configuration files. |
 | `/etc` | System-wide configuration files used by the operating system and services. |
 
-**Cheat sheet for common configuration files: [Linux Configuration Files Cheat Sheet](linux-filesystem-cheat-sheet.md)**
+**Cheat sheet for common configuration files: [Linux Configuration Files Cheat Sheet](linux-conf-files-cheat-sheet.md)**
 
 #### Admin Log files and systemd journal
 

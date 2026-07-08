@@ -11,7 +11,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Simple Scripts 1](notes/linux/simple-scripts-1.md)
 - [Simple Scripts 2](notes/linux/simple-scripts-2.md)
 - [System Administration](notes/linux/sys-admin.md)
-- [Linux Configuration Files Cheat Sheet](notes/linux/linux-filesystem-cheat-sheet.md)
+- [Linux Configuration Files Cheat Sheet](notes/linux/linux-conf-files-cheat-sheet.md)
   
 ## Networking
 coming soon...

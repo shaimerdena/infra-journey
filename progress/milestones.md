@@ -132,3 +132,6 @@
 - went throgth the admin configuration files in `/etc` directory
 - understood how to view systemd journal logs using `journalctl`
 - understood how log messages are managed using `rsyslog` and stored in `/var/log`
+#### Day 38
+- learned about using other admin accounts and their privileges
+- learned about checking and configuring hardware

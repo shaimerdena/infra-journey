@@ -18,9 +18,12 @@ Table of Contents:
       - [Common Administrative Commands](#common-administrative-commands)
       - [Installing Your Own Commands](#installing-your-own-commands)
     - [Admin Configuration Files](#admin-configuration-files)
-      - [Admin Log files and systemd journal](#admin-log-files-and-systemd-journal)
-        - [`journalctl` command](#journalctl-command)
-        - [`rsyslog`](#rsyslog)
+    - [Admin Log files and systemd journal](#admin-log-files-and-systemd-journal)
+      - [`journalctl` command](#journalctl-command)
+      - [`rsyslog`](#rsyslog)
+  - [Using other admin accounts](#using-other-admin-accounts)
+  - [Checking and Configuring Hardware](#checking-and-configuring-hardware)
+    - [Checking the Hardware](#checking-the-hardware)
 
 ## Understanding System Administration
 
@@ -286,7 +289,7 @@ Main configuration locations:
 
 **Cheat sheet for common configuration files: [Linux Configuration Files Cheat Sheet](linux-conf-files-cheat-sheet.md)**
 
-#### Admin Log files and systemd journal
+### Admin Log files and systemd journal
 
 Log files record events that occur in the operating system.
 
@@ -311,7 +314,7 @@ They are useful for:
 
 ---
 
-##### `journalctl` command
+#### `journalctl` command
 
 The `journalctl` command is used to view logs collected by **systemd journal**.
 
@@ -369,7 +372,7 @@ journalctl -u nginx -n 30
 First check the service status, then inspect its most recent logs. 
 </i>
 
-##### `rsyslog`
+#### `rsyslog`
 
 `rsyslog` is a logging daemon that collects system and application log messages.
 
@@ -408,3 +411,88 @@ Common Log Files
 - Many enterprise Linux systems use **both** `journald` and `rsyslog`.
 </i>
 
+## Using other admin accounts
+
+Linux has special **system accounts** used by services and daemon processes.
+
+These accounts are mainly created to:
+
+- Own files and directories related to a service.
+- Run service processes.
+- Limit the permissions available to each service.
+- Improve system security.
+
+---
+
+**Security Principle**
+
+Services usually run as separate users instead of `root`.
+
+For example:
+
+```text
+Apache → www-data
+Postfix → postfix
+Chrony → chrony
+```
+
+If one service is compromised, the attacker receives only the limited permissions of that service account rather than full root access. This follows the **Principle of Least Privilege**: each service should receive only the permissions it needs.
+
+---
+
+**Common Examples**
+
+| System User | Service / Purpose |
+|---|---|
+| `root` | Superuser with full system access |
+| `www-data` | Runs Apache web server processes on Ubuntu |
+| `apache` | Runs Apache (`httpd`) processes on RHEL/Fedora |
+| `postfix` | Runs the Postfix mail service |
+| `chrony` | Runs the `chronyd` time synchronization service |
+| `lp` | Owns files related to printing services |
+| `avahi` | Runs the Avahi network service |
+
+**Login Restrictions**
+
+System accounts are generally **not intended for interactive login**. Their login shell is often: `/usr/sbin/nologin` or `/bin/false`. These shells prevent users from logging in to the account normally.
+A regular user usually has a real shell: `/bin/bash`.
+
+<i> Note: System accounts exist mainly for: `Service → Process → Limited System User → Required Resources`. They are not regular accounts intended for people. </i>
+
+## Checking and Configuring Hardware
+
+Linux automatically detects and manages most hardware devices.
+
+**Udev**
+
+**Udev** is a Linux subsystem that:
+
+- Detects devices when they are connected or removed.
+- Dynamically creates and removes device interfaces.
+- Assigns names to devices.
+
+For example:
+
+```text
+Connect USB drive
+        ↓
+Linux kernel detects it
+        ↓
+Udev identifies the device
+        ↓
+Device becomes available to the system
+```
+
+**Hardware Management Features:**
+
+- **Automatic:** Linux detects most hardware and loads the necessary drivers automatically.
+- **Dynamic:** Removable devices can be connected and disconnected while the system is running.
+- **Flexible:** Users can configure what happens when a device is connected.
+
+Hardware administration includes:
+
+- Viewing hardware information.
+- Managing removable devices.
+- Loading and managing hardware drivers.
+
+### Checking the Hardware

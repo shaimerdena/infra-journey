@@ -135,3 +135,6 @@
 #### Day 38
 - learned about using other admin accounts and their privileges
 - learned about checking and configuring hardware
+#### Day 39
+- explored the how to check hardware information using commands like `lspci`, `lsusb`, and `lscpu`
+- learned how to view kernel messages using `dmesg`

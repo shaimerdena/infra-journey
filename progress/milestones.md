@@ -138,3 +138,6 @@
 #### Day 39
 - explored the how to check hardware information using commands like `lspci`, `lsusb`, and `lscpu`
 - learned how to view kernel messages using `dmesg`
+#### Day 40
+- learned about managing kernel modules using `lsmod`, `modinfo`, `modprobe`, and `rmmod`
+- practiced loading and unloading kernel modules

@@ -29,7 +29,17 @@ Table of Contents:
       - [List PCI Devices `lspci`](#list-pci-devices-lspci)
       - [List USB Devices `lsusb`](#list-usb-devices-lsusb)
       - [Display CPU Information `lscpu`](#display-cpu-information-lscpu)
-      - [Main Idea](#main-idea)
+    - [Managing Removable Hardware in Linux CLI](#managing-removable-hardware-in-linux-cli)
+      - [View Connected Storage Devices](#view-connected-storage-devices)
+      - [Mount a USB Drive](#mount-a-usb-drive)
+    - [Working with Loadable Kernel Modules](#working-with-loadable-kernel-modules)
+      - [Listing Loaded Kernel Modules](#listing-loaded-kernel-modules)
+        - [List Loaded Modules `lsmod`](#list-loaded-modules-lsmod)
+        - [`modinfo` — View Module Information](#modinfo--view-module-information)
+      - [Loading modules](#loading-modules)
+      - [Removing modules](#removing-modules)
+        - [Remove a Module `rmmod`](#remove-a-module-rmmod)
+        - [Remove a Module with Dependencies `modprobe -r`](#remove-a-module-with-dependencies-modprobe--r)
 
 ## Understanding System Administration
 
@@ -588,24 +598,367 @@ Displays information about the processor, including:
 
 ---
 
-#### Main Idea
+### Managing Removable Hardware in Linux CLI
+
+When removable hardware such as a USB flash drive is connected, Linux detects and prepares the device automatically.
+
+**Device Detection Process:**
 
 ```text
-Linux boots
-      ↓
-Kernel detects hardware
-      ↓
-Kernel loads drivers
-      ↓
-Kernel generates messages
-      ↓
-dmesg / journalctl → view the messages
+USB device is connected
+          ↓
+Kernel detects the hardware
+          ↓
+Kernel loads the required driver
+          ↓
+systemd-udevd receives an event from the kernel
+          ↓
+Udev creates device files in /dev
 ```
 
-Hardware information can then be viewed using:
+For example:
 
 ```text
-lspci → PCI devices
-lsusb → USB devices
-lscpu → CPU information
+/dev/sdb     → the entire USB drive
+/dev/sdb1    → the first partition on the USB drive
 ```
+
+<i> Note: Device files in `/dev` are interfaces used by Linux to communicate with hardware. They do not directly contain the files stored on the device. </i>
+
+---
+
+#### View Connected Storage Devices
+
+`lsblk` displays storage devices, their partitions, sizes, and mount points.
+
+Example:
+
+```text
+NAME   SIZE TYPE MOUNTPOINTS
+sda    32G  disk
+└─sda1 32G  part  /
+sdb    16G  disk
+└─sdb1 16G  part
+```
+
+In this example:
+
+- `/dev/sda` — the system disk.
+- `/dev/sda1` — the system partition mounted at `/`.
+- `/dev/sdb` — the USB drive.
+- `/dev/sdb1` — a partition on the USB drive.
+
+---
+
+#### Mount a USB Drive
+
+In a CLI environment, a removable filesystem may need to be mounted manually.
+
+1. Create a mount point
+
+```bash
+sudo mkdir -p /mnt/usb
+```
+
+A **mount point** is a directory through which the files on a device become accessible.
+
+2. Mount the filesystem
+
+```bash
+sudo mount /dev/sdb1 /mnt/usb
+```
+
+The USB files are now accessible through:
+
+```bash
+ls /mnt/usb
+```
+
+Process:
+
+```text
+USB drive
+     ↓
+/dev/sdb1
+     ↓ mount
+/mnt/usb
+     ↓
+Files become accessible
+```
+
+---
+
+3. Unmount a USB Drive
+
+Before physically disconnecting the device, unmount its filesystem:
+
+```bash
+sudo umount /mnt/usb
+```
+
+You can also unmount it using the device name:
+
+```bash
+sudo umount /dev/sdb1
+```
+
+<i> Notes:
+- The command is `umount`, not `unmount`.
+- Unmounting ensures that pending write operations are completed and the filesystem is safely detached.
+- After successful unmounting, the USB drive can be disconnected.
+</i>
+
+---
+
+**Useful Commands**
+
+| Command | Purpose |
+|---|---|
+| `lsblk` | List storage devices, partitions, and mount points |
+| `dmesg \| tail` | Show recent kernel messages about connected hardware |
+| `dmesg -w` | Follow new kernel messages in real time |
+| `journalctl -f` | Follow new system journal messages |
+| `sudo mkdir -p /mnt/usb` | Create a mount point |
+| `sudo mount /dev/sdb1 /mnt/usb` | Mount a USB filesystem |
+| `ls /mnt/usb` | View files stored on the mounted USB drive |
+| `sudo umount /mnt/usb` | Unmount the filesystem safely |
+
+---
+
+### Working with Loadable Kernel Modules
+
+Kernel module is a piece of code that can be dynamically loaded into or removed from the running Linux kernel to add functionality, such as hardware driver support.
+
+Linux usually detects hardware and loads the required **kernel modules** automatically. However, if a device is not detected or does not work correctly, an administrator may need to load the appropriate module manually.
+
+Kernel modules are stored in: `/lib/modules/`. Inside this directory, modules are organized by **kernel version**. Each kernel version has its own set of compatible modules.
+
+For example: `/lib/modules/6.15.9-201.fc42.x86_64/`
+
+Linux provides commands to:
+
+- list currently loaded modules;
+- load modules into the running kernel;
+- unload modules that are no longer needed;
+- view information about modules.
+
+Modules can be loaded and unloaded while Linux is running, without rebuilding the kernel or rebooting the system.
+
+#### Listing Loaded Kernel Modules
+
+##### List Loaded Modules `lsmod`
+
+The `lsmod` command displays kernel modules that are currently loaded into the running Linux kernel.
+
+Example:
+
+```text
+Module       Size      Used by
+e1000e       356352    0
+nf_nat       61440     3
+```
+
+| Column | Description |
+|---|---|
+| `Module` | Name of the loaded kernel module |
+| `Size` | Size of the module in memory (bytes) |
+| `Used by` | Number of components using the module and, when available, their names |
+
+<i> Note: `lsmod` shows only modules that are currently loaded, not every module installed on the system.</i>
+
+---
+
+##### `modinfo` — View Module Information
+
+The `modinfo` command displays detailed information about a kernel module.
+
+```bash
+modinfo module_name
+```
+
+Example:
+
+```bash
+modinfo e1000
+```
+
+Possible information includes:
+
+- module description;
+- author;
+- module file location;
+- license;
+- supported devices;
+- module parameters.
+
+---
+
+**Useful Options**
+
+| Command | Purpose |
+|---|---|
+| `modinfo -d e1000` | Show the module description |
+| `modinfo -a e1000` | Show the module author |
+| `modinfo -n e1000` | Show the path to the module file |
+
+Example:
+
+```bash
+modinfo -d e1000
+```
+
+Output:
+
+```text
+Intel(R) PRO/1000 Network Driver
+```
+
+<i> Note: Some modules may not contain a description or author information. </i>
+
+#### Loading modules
+
+**Why Load a Module Manually?**
+
+A module may be loaded manually when:
+
+- Linux does not automatically detect the required hardware or driver.
+- A kernel feature is needed temporarily.
+- Support for a particular filesystem or device is required.
+
+---
+
+The `modprobe` command loads an installed module into the running Linux kernel.
+
+```bash
+sudo modprobe module_name
+```
+
+Example:
+
+```bash
+sudo modprobe parport
+```
+
+The module must already be installed in the directory for the current kernel version:
+
+```text
+/lib/modules/<kernel-version>/
+```
+
+---
+
+**Loading a Module with Parameters**
+
+Some modules accept additional configuration parameters when they are loaded.
+
+```bash
+sudo modprobe module_name parameter=value
+```
+
+Example:
+
+```bash
+sudo modprobe parport_pc io=0x3bc irq=auto
+```
+
+In this example:
+
+- `parport_pc` — the module being loaded.
+- `io=0x3bc` — specifies the device’s I/O address.
+- `irq=auto` — tells Linux to detect the IRQ automatically.
+
+---
+
+**Temporary Loading**
+
+Modules loaded using `modprobe` are active only during the current system session:
+
+```text
+modprobe
+    ↓
+Module is loaded into the running kernel
+    ↓
+Module remains active during the current boot
+    ↓
+System reboots
+    ↓
+The manual loading is not automatically repeated
+```
+
+To load a module automatically after every boot, it must be added to the system’s module-loading configuration.
+
+<i> Note: On modern Linux systems, modules that should load at boot are usually listed in files inside `/etc/modules-load.d/`, rather than by placing `modprobe` commands in startup scripts. </i>
+
+#### Removing modules
+
+Kernel modules can be removed from the **running kernel** when they are no longer needed.
+
+##### Remove a Module `rmmod`
+
+```bash
+sudo rmmod module_name
+```
+
+Example:
+
+```bash
+sudo rmmod parport_pc
+```
+
+The module will be removed only if it is **not currently in use**.
+
+If the module is busy:
+
+- a process may be using the related device;
+- another kernel module may depend on it.
+
+In this case, stop the process or service using the module and try again.
+
+<i> Note: Removing a module unloads it from the running kernel. It does not delete the module file from `/lib/modules/`. </i>
+
+---
+
+**Built-in Modules**
+
+Some modules are compiled directly into the Linux kernel and cannot be unloaded.
+
+Example:
+
+```bash
+sudo rmmod usbcore
+```
+
+Possible output:
+
+```text
+rmmod: ERROR: Module usbcore is builtin
+```
+
+A **built-in module** is a permanent part of the running kernel rather than a separately loaded module.
+
+---
+
+##### Remove a Module with Dependencies `modprobe -r`
+
+```bash
+sudo modprobe -r module_name
+```
+
+Example:
+
+```bash
+sudo modprobe -r parport_pc
+```
+
+Unlike `rmmod`, `modprobe -r` can also remove related dependency modules that are no longer needed or used by anything else.
+
+---
+
+**`rmmod` vs `modprobe -r`**
+
+| Command | Purpose |
+|---|---|
+| `rmmod module_name` | Removes only the specified module |
+| `modprobe -r module_name` | Removes the module and may also remove unused dependency modules |
+
+<i> Note: `modprobe -r` is generally more convenient because it handles module dependencies. </i>

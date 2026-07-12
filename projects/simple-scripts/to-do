@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Simple to-do list script
+
+TODO_FILE="./todo.txt"
+
+# Function to display the to-do list
+display_list() {
+    if [ -s "$TODO_FILE" ] ; then 
+        while IFS= read -r line ; do
+            echo "$line"
+        done < "$TODO_FILE"
+    else 
+        echo "The to-do list is empty"
+    fi
+}
+
+if [ $# -lt 1 ] ; then
+    echo "Enter the number:
+          1 - To display the to-do list
+          2 - To add a new task
+          3 - To mark the task as done"
+    exit 1
+fi
+
+if [ "$1" = 1 ] ; then
+    display_list
+    exit 0
+elif [ "$1" = 2 ] ; then
+    read -p "Enter the task: " task
+    if grep -q "$task" "$TODO_FILE"; then
+        echo "The task was already added"
+        exit 0
+    else
+        Num_rows=$(wc -l < "$TODO_FILE")
+        echo "[ $((Num_rows + 1)) ] $task" >> "$TODO_FILE"
+        echo $task was added to the file
+        exit 0
+    fi
+elif [ "$1" = 3 ] ; then
+    display_list
+    read -p "Enter the number of the task, which you wanna mark as done: " task_done
+    sed -i '' "${task_done}s/$task_done/✓/" "$TODO_FILE"
+    echo "The task was marked as done"
+    display_list 
+    exit 0
+else 
+    echo "Try again."
+    exit 1
+fi

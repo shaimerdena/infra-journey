@@ -141,3 +141,5 @@
 #### Day 40
 - learned about managing kernel modules using `lsmod`, `modinfo`, `modprobe`, and `rmmod`
 - practiced loading and unloading kernel modules
+#### Day 41
+- did hands-on shell exercises to reinforce key concepts

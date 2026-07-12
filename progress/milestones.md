@@ -143,3 +143,4 @@
 - practiced loading and unloading kernel modules
 #### Day 41
 - did hands-on shell exercises to reinforce key concepts
+- wrote a simple script - "to do list" to manage tasks

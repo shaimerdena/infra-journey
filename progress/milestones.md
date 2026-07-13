@@ -147,3 +147,4 @@
 ## 13.07.2026 - 19.07.2026
 #### Day 42
 - wrote a simple script - "backup" to backup directories
+- tried to write a script that shows the system information, but i didn't cover all the information, so i will revisit it later

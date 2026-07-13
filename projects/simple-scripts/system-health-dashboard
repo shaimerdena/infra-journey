@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Simple script that shows system health dashboard
+
+#line function
+line(){
+    for((i=0; i<=50; i++))
+    do 
+        echo -n "="
+    done
+    echo ""
+}
+
+line
+echo "CPU:      $()"
+echo "RAM:      $()"
+echo "Disk:      $()"
+echo "Uptime:      $(uptime)"
+echo "Users:      $(wc -l  < /etc/passwd)"
+echo IP:      "$(hostname -I)"
+line

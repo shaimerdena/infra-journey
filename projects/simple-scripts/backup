@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Simple backup script
+
+read -p "Enter the path to the directory you want to back up: " dirpath
+if [ -d "$dirpath" ] ; then
+    if tar -czvf "backup_$(date +"%Y-%m-%d_%H-%M").tar.gz" "$dirpath" ; then
+        echo "Backup completed successfully."
+        exit 0
+    else 
+        echo "Backup failed."
+        exit 1
+    fi
+else
+    echo "The directory doesn't exist. Try again. "
+    exit 1
+fi

@@ -144,3 +144,6 @@
 #### Day 41
 - did hands-on shell exercises to reinforce key concepts
 - wrote a simple script - "to do list" to manage tasks
+## 13.07.2026 - 19.07.2026
+#### Day 42
+- wrote a simple script - "backup" to backup directories

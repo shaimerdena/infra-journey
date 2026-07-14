@@ -675,3 +675,9 @@ The `man` command organizes documentation into numbered sections.
 
 <strong> `man -k` - to search the name and summary sections of all man pages installed on the system.</strong>
 <i> Note: if `man -k` option displays no output, it may be that the man page database has not been initialized. Type `mandb` as root to initialize the man page database. </i>
+
+<br>
+<br>
+<br>
+
+**The next topic: [Filesystem](./filesystem.md)**

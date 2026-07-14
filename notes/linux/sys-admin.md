@@ -962,3 +962,7 @@ Unlike `rmmod`, `modprobe -r` can also remove related dependency modules that ar
 | `modprobe -r module_name` | Removes the module and may also remove unused dependency modules |
 
 <i> Note: `modprobe -r` is generally more convenient because it handles module dependencies. </i>
+
+<br>
+<br>
+<br>

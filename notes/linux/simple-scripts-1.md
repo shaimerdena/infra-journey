@@ -508,3 +508,9 @@ Output:
 1
 2
 ```
+
+<br>
+<br>
+<br>
+
+**The continuation: [Simple Scripts 2](./simple-scripts-2.md)**

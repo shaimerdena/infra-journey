@@ -43,3 +43,9 @@ Linux can be used far beyond a traditional desktop operating system.
 | Cloud Computing | Linux provides the foundation for many cloud platforms and private cloud environments through virtualization and resource management technologies. |
 | Real-Time Computing | Linux can be configured to prioritize critical processes and provide predictable response times for time-sensitive applications. |
 | Network Storage | Linux supports distributed and network-based storage systems such as NFS, Samba, and iSCSI, allowing data to be accessed over a network rather than only from local disks. |
+
+<br>
+<br>
+<br>
+
+**The next topic: [Using the shell](./using-the-shell.md)**

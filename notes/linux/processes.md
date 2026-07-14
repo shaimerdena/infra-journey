@@ -689,3 +689,9 @@ Root can:
 2. Low nice value (-20 to 0) → Important system tasks
 
 </i>
+
+<br>
+<br>
+<br>
+
+**The next topic: [Simple Scripts 1](./simple-scripts-1.md)**

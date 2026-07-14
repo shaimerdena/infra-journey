@@ -613,3 +613,9 @@ Display only lines containing `inet`.
 - Searches are case-sensitive by default.
 - Can be combined with pipes (`|`) to filter command output.
 - One of the most commonly used Linux text-processing tools. </i>
+
+<br>
+<br>
+<br>
+
+**The next topic: [Processes](./processes.md)**

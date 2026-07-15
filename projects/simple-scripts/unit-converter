@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#Simple unit-converter script
+
+read -p "What measure you want to convert: 
+            1. GB to MB
+            2. MB to GB
+            3. km to mi
+            4. mi to km
+            5. C to F
+            6. F to C
+" number
+
+read -p "Enter the number: " num
+
+case $number in
+    1)
+        echo $(($num * 1024))
+        ;;
+    2)
+        echo "scale=3; $num / 1024" | bc
+        ;;
+    3) 
+        echo "scale=3; $num / 1.609" | bc
+        ;;
+    4)
+        echo "scale=3; $num * 1.609" | bc
+        ;;
+    5)
+        echo $((($num * 9/5) + 32))
+        ;;
+    6)
+        echo $((($num - 32) * 5/9))
+        ;;
+    *)
+        echo "Try again. "
+        ;;
+esac

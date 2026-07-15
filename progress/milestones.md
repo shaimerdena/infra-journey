@@ -148,3 +148,6 @@
 #### Day 42
 - wrote a simple script - "backup" to backup directories
 - tried to write a script that shows the system information, but i didn't cover all the information, so i will revisit it later
+#### Day 43
+- a revision day
+- wrote a simple script - "unit converter" to convert units

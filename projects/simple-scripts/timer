@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#Simple timer script
+
+read -p "Choose the time in seconds for timer: " time
+for((i=$time;i>=0;i--))
+do 
+    echo $i
+    sleep 1
+done

@@ -151,3 +151,6 @@
 #### Day 43
 - a revision day
 - wrote a simple script - "unit converter" to convert units
+#### Day 44
+- a revision day
+- wrote a simple script - "timer" to set a timer

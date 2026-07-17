@@ -154,3 +154,5 @@
 #### Day 44
 - a revision day
 - wrote a simple script - "timer" to set a timer
+#### Day 45
+- a revision day

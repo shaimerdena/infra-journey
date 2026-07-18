@@ -156,3 +156,6 @@
 - wrote a simple script - "timer" to set a timer
 #### Day 45
 - a revision day
+#### Day 46
+- a revision day
+- wrote a simple script - "notes" to manage notes

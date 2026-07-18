@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#Simple script for managing notes
+
+NOTES_FILE="./notes.txt"
+
+display_notes() {
+    if [ -e "$NOTES_FILE" ] ; then
+        while IFS= read -r line ; do
+            echo "$line"
+        done < "$NOTES_FILE"
+    else
+        echo "The file is empty"
+    fi
+}
+
+display_notes

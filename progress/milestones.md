@@ -159,3 +159,4 @@
 #### Day 46
 - a revision day
 - wrote a simple script - "notes" to manage notes
+#### Day 47

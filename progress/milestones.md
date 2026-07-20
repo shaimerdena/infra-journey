@@ -161,3 +161,7 @@
 - wrote a simple script - "notes" to manage notes
 #### Day 47
 - started learning about software management
+## 20.07.2026 - 26.07.2026
+#### Day 48
+- learned about package management in Linux
+- learned about different package formats: `.deb` and `.rpm`

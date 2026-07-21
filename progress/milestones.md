@@ -165,3 +165,6 @@
 #### Day 48
 - learned about package management in Linux
 - learned about different package formats: `.deb` and `.rpm`
+#### Day 49
+- learned more about `deb` and `rpm` packaging
+- explored their differences

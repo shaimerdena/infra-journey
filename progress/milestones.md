@@ -168,3 +168,5 @@
 #### Day 49
 - learned more about `deb` and `rpm` packaging
 - explored their differences
+### Day 50
+- understood how to manage RPMs using `dnf` and `yum`

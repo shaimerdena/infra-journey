@@ -7,6 +7,9 @@ Table of Contents:
   - [Understanding RPM and DEB Software Packaging](#understanding-rpm-and-deb-software-packaging)
     - [DEB packaging](#deb-packaging)
     - [RPM packaging](#rpm-packaging)
+  - [Managing RPMs with `dnf` and `yum`](#managing-rpms-with-dnf-and-yum)
+    - [`yum`](#yum)
+    - [`dnf`](#dnf)
 
 ## Understanding RPM and DEB Software Packaging
   
@@ -40,7 +43,8 @@ packages, get new packages, or view installed packages.
 
 **RPM (Red Hat Package Manager)**
 - RPM is a package management system used by Red Hat-based distributions (e.g., RHEL, CentOS, Fedora).
-- RPM packages have the `.rpm` file extension. Later `.yum` was introduced for managing RPM packages, which was later replaced by `dnf` in newer versions of Fedora and RHEL.
+- RPM packages have the `.rpm` file extension. 
+- The command `rpm` was the first tool to manage RMPs. Later `.yum` was introduced for managing RPM packages, which was later replaced by `dnf` in newer versions of Fedora and RHEL.
 - RPM provides tools for installing, upgrading, and removing software packages.
 - RPM relies on the user to resolve dependencies.
 
@@ -68,19 +72,45 @@ Meaning:
 | x86_64 | 64-bit architecture |
 | .rpm | RPM package file |
 
+Display detailed information about package: `rpm -qi firefox`
+
 ---
 
 **RPM Database**
 
-After installation, package information is stored in the **local RPM database**. The database keeps information about: Installed packages, Versions, Dependencies, Installation details
+After installation, package information is stored in the **local RPM database**. The database keeps information about: Installed packages, Versions, Dependencies, Installation details.
 
 ---
 
-**Show Package Information**
+## Managing RPMs with `dnf` and `yum`
 
-Display detailed information:
+### `yum`
 
-```bash
-rpm -qi firefox
-```
----
+**YUM (Yellowdog Updater Modified)** is a package manager for RPM-based Linux distributions. Before YUM, users had to install RPM packages and their dependencies manually. YUM introduced **software repositories**, allowing dependencies to be downloaded automatically.
+
+Its main purpose is to:
+- install packages;
+- update packages;
+- remove packages;
+- automatically resolve dependencies.
+
+A **repository** is a collection of software packages stored in one place.
+
+Repositories may be located:
+- on a web server (`http://`)
+- on an FTP server (`ftp://`)
+- on local media (USB, DVD)
+- in a local directory (`file://`)
+
+### `dnf`
+
+**DNF (Dandified YUM)** is the modern replacement for YUM. In many systems, `yum` is simply a symbolic link to `dnf`.
+
+It performs the same tasks:
+- install packages
+- update packages
+- remove packages
+- search packages
+- resolve dependencies
+
+Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.

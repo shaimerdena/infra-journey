@@ -170,3 +170,5 @@
 - explored their differences
 ### Day 50
 - understood how to manage RPMs using `dnf` and `yum`
+### Day 51
+- understood how `dnf` works

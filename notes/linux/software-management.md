@@ -10,6 +10,7 @@ Table of Contents:
   - [Managing RPMs with `dnf` and `yum`](#managing-rpms-with-dnf-and-yum)
     - [`yum`](#yum)
     - [`dnf`](#dnf)
+    - [How DNF works](#how-dnf-works)
 
 ## Understanding RPM and DEB Software Packaging
   
@@ -114,3 +115,14 @@ It performs the same tasks:
 - resolve dependencies
 
 Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
+
+### How DNF works
+
+1. Read configuration (`/etc/dnf/dnf.conf`)
+2. Read enabled repositories (`/etc/yum.repos.d/`)
+3. Download repository metadata
+4. Resolve dependencies
+5. Download RPM packages
+6. RPM installs packages into the filesystem
+7. Update local RPM database
+

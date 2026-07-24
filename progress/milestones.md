@@ -172,3 +172,5 @@
 - understood how to manage RPMs using `dnf` and `yum`
 ### Day 51
 - understood how `dnf` works
+### Day 52
+- a revision day

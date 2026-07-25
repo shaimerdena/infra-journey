@@ -175,3 +175,5 @@
 ### Day 52
 - a revision day
 ### Day 53
+- read about third-party repositories
+- learned how to search for packages using `dnf` subcommands

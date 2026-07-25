@@ -10,7 +10,10 @@ Table of Contents:
   - [Managing RPMs with `dnf` and `yum`](#managing-rpms-with-dnf-and-yum)
     - [`yum`](#yum)
     - [`dnf`](#dnf)
-    - [How DNF works](#how-dnf-works)
+    - [How `dnf` works](#how-dnf-works)
+    - [Third-party repositories](#third-party-repositories)
+  - [Managing software with the `dnf` command](#managing-software-with-the-dnf-command)
+    - [Searching for packages](#searching-for-packages)
 
 ## Understanding RPM and DEB Software Packaging
   
@@ -116,7 +119,7 @@ It performs the same tasks:
 
 Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
 
-### How DNF works
+### How `dnf` works
 
 1. Read configuration (`/etc/dnf/dnf.conf`)
 2. Read enabled repositories (`/etc/yum.repos.d/`)
@@ -126,3 +129,24 @@ Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
 6. RPM installs packages into the filesystem
 7. Update local RPM database
 
+### Third-party repositories
+
+- Use third-party repositories only when necessary.
+- Too many repositories can:
+  - cause package conflicts;
+  - slow metadata updates;
+  - provide less trusted packages.
+- Prefer official repositories whenever possible.
+
+## Managing software with the `dnf` command
+
+### Searching for packages
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `dnf search <keyword>` | Search for packages by keyword (name or description). | `dnf search editor` |
+| `dnf info <package>` | Display detailed information about a package. | `dnf info emacs` |
+| `dnf provides <file/command>` | Find which package provides a specific file or command. | `dnf provides dvdrecord` |
+| `dnf list <package>` | Show the available version and repository of a package. | `dnf list emacs` |
+| `dnf list --available` | List all available packages from enabled repositories. | `dnf list --available` |
+| `dnf list --installed` | List all installed packages. | `dnf list --installed` |

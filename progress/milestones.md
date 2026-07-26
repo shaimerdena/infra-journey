@@ -168,12 +168,14 @@
 #### Day 49
 - learned more about `deb` and `rpm` packaging
 - explored their differences
-### Day 50
+#### Day 50
 - understood how to manage RPMs using `dnf` and `yum`
-### Day 51
+#### Day 51
 - understood how `dnf` works
-### Day 52
+#### Day 52
 - a revision day
-### Day 53
+#### Day 53
 - read about third-party repositories
 - learned how to search for packages using `dnf` subcommands
+#### Day 54
+- explored different subcommands for managing rpm packages

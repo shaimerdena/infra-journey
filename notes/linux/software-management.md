@@ -12,8 +12,12 @@ Table of Contents:
     - [`dnf`](#dnf)
     - [How `dnf` works](#how-dnf-works)
     - [Third-party repositories](#third-party-repositories)
-  - [Managing software with the `dnf` command](#managing-software-with-the-dnf-command)
-    - [Searching for packages](#searching-for-packages)
+    - [Managing software with the `dnf` command](#managing-software-with-the-dnf-command)
+      - [Searching for packages](#searching-for-packages)
+      - [Installing and removing packages](#installing-and-removing-packages)
+      - [Updating packages](#updating-packages)
+      - [Updating groups of packages](#updating-groups-of-packages)
+      - [Maintaining your RPM package database and cache](#maintaining-your-rpm-package-database-and-cache)
 
 ## Understanding RPM and DEB Software Packaging
   
@@ -138,9 +142,9 @@ Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
   - provide less trusted packages.
 - Prefer official repositories whenever possible.
 
-## Managing software with the `dnf` command
+### Managing software with the `dnf` command
 
-### Searching for packages
+#### Searching for packages
 
 | Command | Purpose | Example |
 |---------|---------|---------|
@@ -150,3 +154,42 @@ Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
 | `dnf list <package>` | Show the available version and repository of a package. | `dnf list emacs` |
 | `dnf list --available` | List all available packages from enabled repositories. | `dnf list --available` |
 | `dnf list --installed` | List all installed packages. | `dnf list --installed` |
+
+#### Installing and removing packages
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `dnf install <package>` | Install a package and its dependencies. | `dnf install firefox` |
+| `rpm -V <package>` | Verify the integrity of an installed package by comparing its files with the RPM database. | `rpm -V openssh` |
+| `dnf reinstall <package>` | Reinstall an already installed package. | `dnf reinstall firefox` |
+| `dnf remove <package>` | Remove an installed package. | `dnf remove firefox` |
+| `dnf history undo <ID>` | Undo a previous DNF transaction. | `dnf history undo 15` |
+| `dnf download <package>` | Download an RPM package without installing it. | `dnf download firefox` |
+
+#### Updating packages
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `dnf check-update` | Check for available package updates without installing them. | `dnf check-update` |
+| `dnf update` | Update all installed packages to the latest available versions. | `dnf update` |
+| `dnf update <package>` | Update a specific package to the latest available version. | `dnf update firefox` |
+
+
+#### Updating groups of packages
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `dnf group list \| grep <group>` | Search for a package group by filtering the list of available groups. | `dnf group list \| grep Development` |
+| `dnf group info <group>` | Display detailed information about a package group, including the packages it contains. | `dnf group info "Development Tools"` |
+| `dnf group install <group>` | Install all packages in a package group. | `dnf group install "Development Tools"` |
+| `dnf group remove <group>` | Remove the packages installed from a package group. | `dnf group remove "Development Tools"` |
+
+#### Maintaining your RPM package database and cache
+
+| Command | Purpose |
+|---------|---------|
+| `dnf clean packages` | Remove cached downloaded package files. |
+| `dnf clean metadata` | Remove cached repository metadata. |
+| `dnf clean all` | Remove all cached packages and metadata. |
+| `dnf check` | Check for dependency problems and package database consistency. |
+| `rpm --rebuilddb` | Rebuild the local RPM database if it becomes corrupted. |

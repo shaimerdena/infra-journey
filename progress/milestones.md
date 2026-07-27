@@ -179,3 +179,6 @@
 - learned how to search for packages using `dnf` subcommands
 #### Day 54
 - explored different subcommands for managing rpm packages
+## 27.07.2026 - 02.08.2026
+#### Day 55
+- a revision day

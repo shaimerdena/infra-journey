@@ -193,3 +193,10 @@ Repositories are configured in: `/etc/dnf/dnf.conf` or `/etc/yum.repos.d/`.
 | `dnf clean all` | Remove all cached packages and metadata. |
 | `dnf check` | Check for dependency problems and package database consistency. |
 | `rpm --rebuilddb` | Rebuild the local RPM database if it becomes corrupted. |
+
+
+<br>
+<br>
+<br>
+
+**The next topic: [Managing-user-accounts](./managing-user-accounts)**

@@ -182,3 +182,6 @@
 ## 27.07.2026 - 02.08.2026
 #### Day 55
 - a revision day
+#### Day 56
+- practiced adding users on cockpit
+- explored options that come with the `useradd` command

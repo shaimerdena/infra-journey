@@ -185,3 +185,4 @@
 #### Day 56
 - practiced adding users on cockpit
 - explored options that come with the `useradd` command
+#### Day 57

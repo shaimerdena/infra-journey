@@ -11,6 +11,9 @@ Table of Contents:
       - [`/etc/default/useradd`](#etcdefaultuseradd)
       - [Changing default settings](#changing-default-settings)
     - [Skeleton directory](#skeleton-directory)
+    - [`usermod`](#usermod)
+    - [`userdel`](#userdel)
+  - [Group Accounts](#group-accounts)
 
 ## Creating User accounts
 ### `useradd`
@@ -118,3 +121,49 @@ Examples:
 - login scripts
 
 ---
+
+### `usermod`
+
+Modify an existing user account.
+
+| Option | Purpose | Example |
+|---------|---------|---------|
+| `-aG <groups>` | Add the user to supplementary groups **without removing existing ones**. | `usermod -aG docker,sudo jake` |
+| `-l <login>` | Change the user's login name. | `usermod -l jack jake` |
+| `-L` | Lock the user account (disable login without deleting the password). | `usermod -L jake` |
+| `-U` | Unlock a locked user account. | `usermod -U jake` |
+| `-m` | Move the user's home directory to the new location. Used together with `-d`. | `usermod -d /home/jack -m jack` |
+| `-o` | Allow a duplicate UID. Must be used with `-u`. | `usermod -o -u 1002 tim` |
+
+Example:
+
+```bash
+usermod -c "John Smith" jsmith
+usermod -s /bin/csh jsmith
+```
+
+<i> Notes:
+- other available options mirror those found in `useradd`, like `c`,`d`,`s`,`e`,`f` and so on.
+- always use `aG` instead of just `G`, as it can remove the user from previous group list. </i>
+  
+### `userdel`
+
+Delete a user account.
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `userdel <user>` | Delete the user account, but keep the home directory. | `userdel chris` |
+| `userdel -r <user>` | Delete the user account and remove the home directory. | `userdel -r chris` |
+
+<i> Note: Deleting a user does **not** automatically remove all files they own (unless `-r` removes the home directory). Remaining files keep the old UID as the owner until reassigned. </i>
+
+Useful `find` commands:
+
+| Command | Purpose |
+|---------|---------|
+| `find / -user <user> -ls` | Find all files owned by a specific user before deleting the account. |
+| `find / -uid <UID> -ls` | Find files owned by a specific UID. |
+| `find / -nouser -ls` | Find files that are not owned by any existing user. |
+
+## Group Accounts
+

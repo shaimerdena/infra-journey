@@ -186,3 +186,5 @@
 - practiced adding users on cockpit
 - explored options that come with the `useradd` command
 #### Day 57
+- practiced modifying and deleting users accounts
+- explored options that come with `usermod` and `userdel`

@@ -14,6 +14,7 @@ Table of Contents:
     - [`usermod`](#usermod)
     - [`userdel`](#userdel)
   - [Group Accounts](#group-accounts)
+    - [`groupadd` / `groupmod`](#groupadd--groupmod)
 
 ## Creating User accounts
 ### `useradd`
@@ -175,3 +176,21 @@ Useful `find` commands:
 - The `newgrp <group>` command temporarily changes the current primary group.
 - Files created after using `newgrp` are assigned to the new primary group.
 - Use `exit` to leave the temporary group session and return to the original primary group.
+- A user can become a member of a group temporarily with the `newgrp` command without actually being a member of that group. To do so, root account should give set a group password using `gpasswd`.
+
+### `groupadd` / `groupmod`
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `groupadd <group>` | Create a new group. | `groupadd kings` |
+| `groupadd -g <GID> <group>` | Create a group with a specific GID. | `groupadd -g 1325 jokers` |
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `groupmod -g <GID> <group>` | Change the group's GID. | `groupmod -g 330 jokers` |
+| `groupmod -n <new_name> <old_name>` | Rename a group. | `groupmod -n jacks jokers` |
+
+<i> Notes:
+- New groups are also created automatically when a new user is created (by default).
+- Regular groups usually start with GID **1000** (Ubuntu, Fedora, RHEL).
+- Use `usermod -aG` or `gpasswd -a` to add users to a group. </i>

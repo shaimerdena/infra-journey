@@ -190,3 +190,4 @@
 - explored options that come with `usermod` and `userdel`
 #### Day 58
 - read about group accounts
+- learned about `groupadd` and `groupmod` commands

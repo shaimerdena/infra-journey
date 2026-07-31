@@ -167,3 +167,11 @@ Useful `find` commands:
 
 ## Group Accounts
 
+- Every user has one **primary group**.
+- By default, new files and directories belong to the user's primary group (`cipher`).
+- A user can also belong to multiple **supplementary groups** (`sales`, `marketing`).
+- Supplementary groups provide additional access to files and directories (depending on permissions).
+- Only the **root** user can add or remove users from groups.
+- The `newgrp <group>` command temporarily changes the current primary group.
+- Files created after using `newgrp` are assigned to the new primary group.
+- Use `exit` to leave the temporary group session and return to the original primary group.

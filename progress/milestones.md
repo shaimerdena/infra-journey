@@ -188,3 +188,5 @@
 #### Day 57
 - practiced modifying and deleting users accounts
 - explored options that come with `usermod` and `userdel`
+#### Day 58
+- read about group accounts

@@ -193,3 +193,4 @@
 - learned about `groupadd` and `groupmod` commands
 #### Day 59
 - understood how to set and display ACLs
+- learned about default ACLs

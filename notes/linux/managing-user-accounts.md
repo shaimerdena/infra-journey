@@ -18,6 +18,7 @@ Table of Contents:
   - [Access Control Lists (ACL)](#access-control-lists-acl)
     - [`setfacl`](#setfacl)
     - [`getfacl`](#getfacl)
+    - [Default ACL](#default-acl)
 
 ## Creating User accounts
 ### `useradd`
@@ -235,3 +236,15 @@ Display ACL permissions for a file or directory.
 - ACL extends the standard Linux permission model (`owner`, `group`, `others`).
 - ACL is useful when a single user or group needs special permissions without changing the file's owner or group.
 </i>
+
+### Default ACL
+
+Default ACL applies **only to directories**.
+
+It defines the default permissions that **newly created files and subdirectories** will inherit. Existing files are **not** affected.
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `setfacl -m d:u:<user>:<perm> <dir>` | Set a default ACL for a user. | `setfacl -m d:u:jake:rw project/` |
+| `setfacl -m d:g:<group>:<perm> <dir>` | Set a default ACL for a group. | `setfacl -m d:g:developers:rwx project/` |
+| `getfacl <directory>` | View default ACL entries. | `getfacl projects/` |

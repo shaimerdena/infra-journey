@@ -191,3 +191,5 @@
 #### Day 58
 - read about group accounts
 - learned about `groupadd` and `groupmod` commands
+#### Day 59
+- understood how to set and display ACLs

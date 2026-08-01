@@ -15,6 +15,9 @@ Table of Contents:
     - [`userdel`](#userdel)
   - [Group Accounts](#group-accounts)
     - [`groupadd` / `groupmod`](#groupadd--groupmod)
+  - [Access Control Lists (ACL)](#access-control-lists-acl)
+    - [`setfacl`](#setfacl)
+    - [`getfacl`](#getfacl)
 
 ## Creating User accounts
 ### `useradd`
@@ -194,3 +197,41 @@ Useful `find` commands:
 - New groups are also created automatically when a new user is created (by default).
 - Regular groups usually start with GID **1000** (Ubuntu, Fedora, RHEL).
 - Use `usermod -aG` or `gpasswd -a` to add users to a group. </i>
+
+## Access Control Lists (ACL)
+
+ACL (Access Control List) provides more flexible permissions than the standard `rwx` model.
+<i> Note: The filesystem must support and have ACL enabled. </i>
+
+---
+
+### `setfacl`
+
+Used to **add, modify, or remove** ACL permissions.
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `setfacl -m u:<user>:<perm> <file>` | Add or modify permissions for a user. | `setfacl -m u:jake:rw file.txt` |
+| `setfacl -m g:<group>:<perm> <file>` | Add or modify permissions for a group. | `setfacl -m g:developers:rwx project` |
+| `setfacl -x u:<user> <file>` | Remove ACL entry for a user. | `setfacl -x u:jake file.txt` |
+| `setfacl -x g:<group> <file>` | Remove ACL entry for a group. | `setfacl -x g:developers project` |
+| `setfacl -b <file>` | Remove all ACL entries from a file or directory. | `setfacl -b file.txt` |
+| `setfacl -R ...` | Apply ACL recursively to a directory and its contents. | `setfacl -R -m g:developers:rwx project/` |
+
+---
+
+### `getfacl`
+
+Display ACL permissions for a file or directory.
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `getfacl <file>` | Show ACL entries of a file. | `getfacl file.txt` |
+| `getfacl <directory>` | Show ACL entries of a directory. | `getfacl project/` |
+
+---
+
+<i> Notes:
+- ACL extends the standard Linux permission model (`owner`, `group`, `others`).
+- ACL is useful when a single user or group needs special permissions without changing the file's owner or group.
+</i>

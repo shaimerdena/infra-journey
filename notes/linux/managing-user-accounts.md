@@ -19,6 +19,9 @@ Table of Contents:
     - [`setfacl`](#setfacl)
     - [`getfacl`](#getfacl)
     - [Default ACL](#default-acl)
+    - [Enabling ACL](#enabling-acl)
+  - [Special Permission Bits](#special-permission-bits)
+  - [Creating Group Collaboration Directories (SetGID)](#creating-group-collaboration-directories-setgid)
 
 ## Creating User accounts
 ### `useradd`
@@ -248,3 +251,116 @@ It defines the default permissions that **newly created files and subdirectories
 | `setfacl -m d:u:<user>:<perm> <dir>` | Set a default ACL for a user. | `setfacl -m d:u:jake:rw project/` |
 | `setfacl -m d:g:<group>:<perm> <dir>` | Set a default ACL for a group. | `setfacl -m d:g:developers:rwx project/` |
 | `getfacl <directory>` | View default ACL entries. | `getfacl projects/` |
+
+### Enabling ACL
+
+On modern Ubuntu, Fedora, and RHEL systems, **ext4** and **XFS** filesystems usually have ACL support enabled by default. Manual ACL configuration is mainly needed on older systems or filesystems without ACL enabled by default.
+
+If ACL is **not enabled**, it can be turned on in several ways:
+
+| Method | Purpose |
+|---------|---------|
+| `/etc/fstab` | Add the `acl` mount option so the filesystem is mounted with ACL support automatically at boot. |
+| Filesystem superblock | Set `acl` as a default mount option, so ACL is enabled whenever the filesystem is mounted (automatically or manually). |
+| `mount` command | Enable ACL temporarily by adding the `acl` option when mounting the filesystem manually. |
+
+## Special Permission Bits
+
+Special permission bits provide additional behavior for executable files and directories. They can be set with `chmod` using either **numeric** or **symbolic** notation.
+
+Special Permission Bits
+
+| Bit | Symbolic | Description |
+|-----|----------|-------------|
+| `4` | `u+s` | **SetUID** – an executable file runs with the permissions of its owner instead of the user who started it. |
+| `2` | `g+s` | **SetGID** – on directories, new files inherit the directory's group. On executable files, the program runs with the group's permissions. |
+| `1` | `o+t` | **Sticky Bit** – on directories, users can delete only their own files (or files owned by root). |
+
+Examples
+
+```bash
+chmod u+s program      # SetUID
+chmod g+s project/     # SetGID
+chmod o+t /tmp         # Sticky Bit
+
+chmod 4755 program
+chmod 2775 project/
+chmod 1777 /tmp
+```
+
+---
+
+<i> Notes 
+- `chmod 775` is equivalent to `chmod 0775` (`0` means no special permission bits are set).
+- **SetGID** and **Sticky Bit** are commonly used for collaborative directories.
+- **SetUID** is mainly used on special executable programs.
+</i>
+
+---
+
+**SetUID and SetGID on Executable Files**
+
+Normally, a program runs with the permissions of the user who starts it.
+
+If **SetUID** or **SetGID** is enabled:
+
+- **SetUID** → the program runs with the permissions of the file's **owner**.
+- **SetGID** → the program runs with the permissions of the file's **group**.
+
+This allows certain privileged programs (e.g., `su`, `passwd`, `newgrp`) to perform actions that ordinary users cannot perform directly.
+
+## Creating Group Collaboration Directories (SetGID)
+
+Flow:
+
+1. Create a group.
+
+```bash
+groupadd sales
+```
+
+2. Add users to the group.
+
+```bash
+usermod -aG sales mary
+```
+
+3. Create a shared directory.
+
+```bash
+mkdir /mnt/salestools
+```
+
+4. Change the directory's group.
+
+```bash
+chgrp sales /mnt/salestools
+```
+
+5. Enable the SetGID bit.
+
+```bash
+chmod 2775 /mnt/salestools
+```
+
+6. Users create files in the shared directory.
+
+Result:
+
+- New files automatically inherit the directory's group (`sales`).
+- All group members can collaborate based on the directory's permissions.
+
+---
+
+<i> Notes
+- A lowercase `s` in the group's execute position (`rwxrwsr-x`) indicates that the **SetGID** bit is enabled.
+- Without SetGID, new files belong to the creator's primary group.
+- With SetGID, new files inherit the directory's group.
+</i>
+
+---
+
+<br>
+<br>
+<br>
+

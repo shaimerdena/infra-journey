@@ -194,3 +194,7 @@
 #### Day 59
 - understood how to set and display ACLs
 - learned about default ACLs
+## 03.08.2026 - 09.08.2026
+#### Day 60
+- explored special permission bits
+- went throught the steps of creating group collaboration directories

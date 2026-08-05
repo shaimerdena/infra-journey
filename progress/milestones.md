@@ -200,3 +200,4 @@
 - went throught the steps of creating group collaboration directories
 #### Day 61
 - did hands-on shell exercises to reinforce key concepts
+#### Day 62

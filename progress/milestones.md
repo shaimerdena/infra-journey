@@ -201,3 +201,4 @@
 #### Day 61
 - did hands-on shell exercises to reinforce key concepts
 #### Day 62
+- started reading about disks and filesystem management

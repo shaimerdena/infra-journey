@@ -4,3 +4,27 @@
 
 Table of Contents:
 - [Managing Disks and Filesystems](#managing-disks-and-filesystems)
+  - [Partitioning Hard Disks](#partitioning-hard-disks)
+    - [Partition tables](#partition-tables)
+    - [Viewing disk partitions](#viewing-disk-partitions)
+
+## Partitioning Hard Disks
+
+### Partition tables 
+
+A **partition table** is a data structure stored on a disk that describes how the disk is divided into partitions. A partition table is stored at the **beginning of a disk**. It does **not** store user data—it only describes the disk layout. Before creating partitions, a disk must have a partition table.
+
+It contains information such as:
+- the number of partitions;
+- the starting and ending location of each partition;
+- the partition type;
+- whether a partition is bootable.
+
+Without a partition table, the operating system cannot determine where partitions begin or end.
+
+Common Partition Table Types
+
+| Type | Description |
+|------|-------------|
+| **MBR (Master Boot Record)** | Legacy partition table. Supports up to **4 primary partitions** and disks up to **2 TB**. |
+| **GPT (GUID Partition Table)** | Modern partition table. Supports **up to 128 partitions**, disks larger than **2 TB**, and provides better reliability through redundancy and error checking. |

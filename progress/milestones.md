@@ -203,4 +203,5 @@
 #### Day 62
 - started reading about disks and filesystem management
 #### Day 63
-- emmm
+- understood how disk storage works (swap area, lvm)
+- understood partition tables

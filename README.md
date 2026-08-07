@@ -14,6 +14,7 @@ My journey into Linux, networking, infrastructure and DevOps.
 - [Linux Configuration Files Cheat Sheet](notes/linux/linux-conf-files-cheat-sheet.md)
 - [Software management](/notes/linux/software-management.md)
 - [Managing User Accounts](/notes/linux/managing-user-accounts.md)
+- [Managing Disks and Filesystems](/notes/linux/disks-filesystems.md)
 
 ## Docker
 coming soon...

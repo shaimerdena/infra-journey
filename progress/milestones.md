@@ -205,3 +205,5 @@
 #### Day 63
 - understood how disk storage works (swap area, lvm)
 - understood partition tables
+#### Day 64
+- learned new commands for viewing disk partitions

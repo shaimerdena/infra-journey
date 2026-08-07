@@ -6,7 +6,8 @@ Table of Contents:
 - [Managing Disks and Filesystems](#managing-disks-and-filesystems)
   - [Partitioning Hard Disks](#partitioning-hard-disks)
     - [Partition tables](#partition-tables)
-    - [Viewing disk partitions](#viewing-disk-partitions)
+    - [Viewing Disk Partitions](#viewing-disk-partitions)
+    - [Device Naming](#device-naming)
 
 ## Partitioning Hard Disks
 
@@ -28,3 +29,77 @@ Common Partition Table Types
 |------|-------------|
 | **MBR (Master Boot Record)** | Legacy partition table. Supports up to **4 primary partitions** and disks up to **2 TB**. |
 | **GPT (GUID Partition Table)** | Modern partition table. Supports **up to 128 partitions**, disks larger than **2 TB**, and provides better reliability through redundancy and error checking. |
+
+### Viewing Disk Partitions
+
+Linux provides several commands to view disks and partitions.
+
+**`parted -l`**
+
+Displays general information about disks:
+
+- disk model;
+- disk size;
+- partition table (GPT/MBR);
+- partitions;
+- filesystem type.
+
+---
+
+**`fdisk -l`**
+
+Displays detailed partition information:
+
+- partition name;
+- partition size;
+- partition type;
+- sector information.
+
+---
+
+**`df -h`**
+
+Displays mounted filesystems and disk usage.
+
+Shows:
+
+- filesystem;
+- total size;
+- used space;
+- available space;
+- mount point.
+
+---
+
+### Device Naming
+
+**SATA / USB**
+
+```text
+/dev/sda
+/dev/sdb
+/dev/sdc
+```
+
+Partitions:
+
+```text
+/dev/sda1
+/dev/sda2
+```
+
+**NVMe SSD**
+
+```text
+/dev/nvme0n1
+```
+
+Partitions:
+
+```text
+/dev/nvme0n1p1
+/dev/nvme0n1p2
+```
+
+---
+<i>Note: USB drives are usually assigned the first available `/dev/sdX` device (e.g., `/dev/sda`).</i>
